@@ -2,6 +2,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')  //encryption password
 const router = express.Router()
 const user = require('../models/userModel')
+const userController = require('./../controllers/userController');
 
 const isLoggedIn = (req, res, next) => {
   if (!req.user) {
@@ -14,15 +15,9 @@ router.get('/', isLoggedIn, function (req, res, next) {
   res.render('index', { title: 'Express' })
 })
 
-router.get('/api/user', async (req, res) => {
-  const users = await user.find()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      users
-    }
-  })
-})
+router
+  .route('/api/users')
+  .get(userController.getAllUsers);
 
 
 
