@@ -1,7 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcrypt')  //encryption password
 const router = express.Router()
-const user = require('../models/userModel')
+const User = require('../models/userModel')
 const userController = require('./../controllers/userController');
 
 const isLoggedIn = (req, res, next) => {
@@ -28,7 +28,7 @@ router
   .get(userController.getAllUsers)
   .get(userController.createUser);
 
-router.route('/api/user/:id')
+router.route('/api/users/:id')
   .get(userController.getUser)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);

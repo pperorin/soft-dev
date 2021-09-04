@@ -21,13 +21,11 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        const users = await User.findById(req.params.id)
-
+        const user = await User.findById(req.params.id)
         res.status(200).json({
             status: 'success',
-            result: users.length,
             data: {
-                users
+                user
             }
         });
     } catch (err) {
