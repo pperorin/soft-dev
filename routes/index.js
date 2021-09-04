@@ -15,21 +15,23 @@ router.get('/', isLoggedIn, function (req, res, next) {
   res.render('index', { title: 'Express' })
 })
 
+router.get('/register', (req, res) => {
+  res.render('register')
+})
+
+router.get('/login', (req, res) => {
+  res.render('login')
+})
+
 router
   .route('/api/users')
-  .get(userController.getAllUsers);
+  .get(userController.getAllUsers)
+  .get(userController.createUser);
 
-
-
-
-// router.get('/register', (req, res) => {
-//   res.render('register')
-// })
-
-// router.get('/login', (req, res) => {
-//   res.render('login')
-// })
-
+router.route('/api/user/:id')
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
