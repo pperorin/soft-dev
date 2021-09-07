@@ -33,6 +33,10 @@ router.route('/api/users/:id')
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
+// router.
+//   route('/top-5-cheap')
+//   .get(userController.aliasTopTours, userController.getAllUsers);
+
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
   // simple validation

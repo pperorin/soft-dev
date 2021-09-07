@@ -4,15 +4,15 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   firstname: {
     type: String,
-    require: true
+    require: [true, 'User must have a name']
   },
   lastname: {
     type: String,
-    require: true
+    require: [true, 'User must have a lastname']
   },
   username: {
     type: String,
-    require: true,
+    require: [true, 'User must have a username'],
     unique: true
   },
   password: String

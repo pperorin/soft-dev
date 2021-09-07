@@ -1,9 +1,24 @@
 const User = require('../models/userModel');
+const APIFeatures = require('./../utils/apiFeatures');
+
+// exports.aliasTopTours = (req, res, next) => {
+//     req.query.limit = '5';
+//     req.query.sort = 'score';
+//     req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+//     next();
+// };
 
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.find()
+        // EXECUTE QUERY
+        const features = new APIFeatures(User.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();    //page='int'&limit='int'
 
+        // SEND RESPONSE
+        const users = await features.query;
         res.status(200).json({
             status: 'success',
             result: users.length,
