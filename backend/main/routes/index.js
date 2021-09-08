@@ -23,6 +23,10 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
+router.get('/socket', (req, res) => {
+  res.render('socket')
+})
+
 router
   .route('/api/users')
   .get(userController.getAllUsers)

@@ -15,7 +15,14 @@ const userSchema = new Schema({
     require: [true, 'User must have a username'],
     unique: true
   },
-  password: String
+  password: String,
+  email: {
+    type: String,
+    unique: true
+  },
+  telephone: String,
+  birthday: String,
+  
 })
 
 const UserModel = mongoose.model('User', userSchema)
