@@ -1,5 +1,4 @@
 const express = require('express')
-const bcrypt = require('bcrypt')  //encryption password
 const router = express.Router()
 const User = require('../models/userModel')
 const Job = require('../models/jobModel')
