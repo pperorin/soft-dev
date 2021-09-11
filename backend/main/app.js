@@ -10,8 +10,6 @@ var app = express();
 require('./db');
 
 var indexRouter = require('./routes/index')
-var authRouter = require('./routes/auth')
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +22,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', cors(), indexRouter)
-app.use('/auth', cors(), authRouter)
 
 const session = require('express-session')
 app.use(

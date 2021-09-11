@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Job = require('../models/jobModel');
 const APIFeatures = require('./../utils/apiFeatures');
 
 // exports.aliasTopTours = (req, res, next) => {
@@ -7,6 +8,25 @@ const APIFeatures = require('./../utils/apiFeatures');
 //     req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
 //     next();
 // };
+
+// exports.getAllJob = async (req, res) => {
+//     try {
+//         const alljobs = await Job.find()
+//         console.log(User);
+//         console.log(Job);
+//         res.status(200).json({
+//             status: 'success',
+//             data: {
+//                 alljobs
+//             }
+//         });
+//     } catch (err) {
+//         res.status(404).json({
+//             status: 'fail',
+//             message: err
+//         });
+//     }
+// }
 
 exports.getAllUsers = async (req, res) => {
     try {

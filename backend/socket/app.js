@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const path = require('path')
 
+require('../main/db');
+
 const APP_PORT = 5555
 
 const server = app.listen(APP_PORT, () => {
