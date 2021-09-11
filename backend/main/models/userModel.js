@@ -2,7 +2,6 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const { kMaxLength } = require('buffer');
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -18,12 +17,11 @@ const userSchema = new Schema({
     minlength: 3,
     maxLength: 64
   },
-  username: {
+  email: {
     type: String,
-    required: [true, 'Please provide a username'],
     unique: true,
-    minlength: 8,
-    maxLength: 64
+    lowercase: true,
+    validate: [validator.isEmail, 'Please provide a valid email']
   },
   password: {
     type: String,
@@ -38,12 +36,6 @@ const userSchema = new Schema({
       // This only works on CREATE and SAVE!!!
       return el === this.password;
     }
-  },
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
   },
   telephone: {
     type: String,
