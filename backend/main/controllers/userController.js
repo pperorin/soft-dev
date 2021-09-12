@@ -1,6 +1,8 @@
 const User = require('../models/userModel');
 const Job = require('../models/jobModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
 
 // exports.aliasTopTours = (req, res, next) => {
 //     req.query.limit = '5';
@@ -28,102 +30,76 @@ const APIFeatures = require('./../utils/apiFeatures');
 //     }
 // }
 
-exports.getAllUsers = async (req, res) => {
-    try {
-        // EXECUTE QUERY
-        const features = new APIFeatures(User.find(), req.query)
-            .filter()
-            .sort()
-            .limitFields()
-            .paginate();    //page='int'&limit='int'
+exports.getAllUsers = catchAsync(async (req, res, next) => {
 
-        // SEND RESPONSE
-        const users = await features.query;
-        res.status(200).json({
-            status: 'success',
-            result: users.length,
-            data: {
-                users
-            }
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
+    // EXECUTE QUERY
+    const features = new APIFeatures(User.find(), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();    //page='int'&limit='int'
+
+    // SEND RESPONSE
+    const users = await features.query;
+    res.status(200).json({
+        status: 'success',
+        result: users.length,
+        data: {
+            users
+        }
+    });
+});
+
+
+exports.getUser = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.params.id)
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
     }
-}
 
-exports.getUser = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id)
-        res.status(200).json({
-            status: 'success',
-            data: {
-                user
-            }
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
-    }
-}
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
 
-exports.createUser = async (req, res) => {
+exports.createUser = catchAsync(async (req, res, next) => {
     // const newUser = new User({})
     // newUser.save()
-    try {
-        const newUser = await User.create(req.body);
 
-        res.status(201).json({
-            status: 'success',
-            data: {
-                User: newUser
-            }
-        });
-    } catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            message: err
-        });
-    }
-}
+    const newUser = await User.create(req.body);
 
-exports.updateUser = async (req, res) => {
-    try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
+    res.status(201).json({
+        status: 'success',
+        data: {
+            User: newUser
+        }
+    });
+});
 
-        res.status(200).json({
-            status: 'success',
-            data: {
-                user
-            }
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
-    }
-};
+exports.updateUser = catchAsync(async (req, res, next) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    });
 
-exports.deleteUser = async (req, res) => {
-    try {
-        await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
 
-        res.status(204).json({
-            status: 'success',
-            data: null
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
-    }
-};
+exports.deleteUser = catchAsync(async (req, res, next) => {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
+        status: 'success',
+        data: null
+    });
+
+});
