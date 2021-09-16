@@ -60,15 +60,6 @@ app.use(cookieParser());
 
 app.use('/', cors(), indexRouter)
 
-const session = require('express-session');
-
-app.use(
-  session({
-    secret: 'my_super_secret',
-    resave: false,
-    saveUninitialized: false
-  })
-)
 
 // Test middleware
 app.use((req, res, next) => {
