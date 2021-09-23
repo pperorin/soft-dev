@@ -55,7 +55,10 @@ const userSchema = new Schema({
     enum: ['user', 'admin'],
     default: 'user'
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: 'default.jpg'
+  },
   money: Number,
   passwordChangedAt: Date,
   passwordResetToken: String,

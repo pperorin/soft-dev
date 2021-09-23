@@ -2,11 +2,16 @@ const multer = require('multer');
 const sharp = require('sharp');
 
 const User = require('../models/userModel');
-const Job = require('../models/jobModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
+exports.aliasTopTasker = (req, res, next) => {
+    req.query.limit = '3';
+    req.query.sort = 'firstname,lastname';
+    req.query.fields = 'firstname,lastname';
+    next();
+};
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -65,6 +70,7 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.getMe = (req, res, next) => {
     req.params.id = req.user.id;
+    console.log(req.params.id);
     next();
 };
 

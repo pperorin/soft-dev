@@ -15,6 +15,8 @@ require('./db');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 var indexRouter = require('./routes/index')
+// var userRouter = require('./routes/user')
+// var adminRouter = require('./routes/admin')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,7 +60,10 @@ app.use(cookieParser());
 
 
 
-app.use('/', cors(), indexRouter)
+app.use('/', cors(), indexRouter);
+// app.use('/user', cors(), userRouter);
+// app.use('/admin', cors(), adminRouter);
+
 
 
 // Test middleware

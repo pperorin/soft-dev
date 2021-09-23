@@ -2,16 +2,13 @@ const express = require('express')
 const router = express.Router()
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
-const taskerController = require('./../controllers/taskerController');
+const indexController = require('../controllers/taskerController');
 
-router.get('/', taskerController.aliasTopTasker, taskerController.getAllUsers);
+router.get('/', indexController.alias);
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
-
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword);
 
 // Protect all routes after this middleware
 router.use(authController.protect);
@@ -23,17 +20,15 @@ router.patch('/updateMe', userController.uploadUserPhoto, userController.resizeU
 router.delete('/deleteMe', userController.deleteMe);
 
 router
-  .route('/api/users')
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+    .route('/api/users')
+    .get(userController.getAllUsers)
+    .post(userController.createUser);
 
 router
-  .route('/api/users/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(
-    authController.restrictTo('admin'),
-    userController.deleteUser
-  );
-
-module.exports = router
+    .route('/api/users/:id')
+    .get(userController.getUser)
+    .patch(userController.updateUser)
+    .delete(
+        authController.restrictTo('admin'),
+        userController.deleteUser
+    );
