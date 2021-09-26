@@ -22,4 +22,4 @@ const personalAssistantSchema = new Schema({
 
 const PersonalAssistantModel = mongoose.model('PersonalAssistant', personalAssistantSchema)
 
-module.exports = PersonalAssistant
+module.exports = PersonalAssistantModel
