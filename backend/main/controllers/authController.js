@@ -47,8 +47,6 @@ exports.signup = catchAsync(async (req, res, next) => {
         birthday: req.body.birthday
     });
     createSendToken(newUser, 201, res);
-
-
 });
 
 exports.login = catchAsync(async (req, res, next) => {

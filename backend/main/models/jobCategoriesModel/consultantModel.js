@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const cleaningSchema = new Schema({
+const consultantSchema = new Schema({
     _id: String,
     reviewtScore: {
         type: Number,
@@ -16,11 +16,11 @@ const cleaningSchema = new Schema({
     },
     subCategories: {
         type: String,
-        enum: ['House Cleaning Services', 'Disinfecting Services', 'Laundry Help', 'Air Conditioning Cleaning Service']
+        enum: ['Marketing', 'Legal', 'Financial-planning', 'Horoscope', 'Tutoring', 'Feng-shui', 'Psychologist']
     }
 })
 
 
-const CleaningModel = mongoose.model('Cleaning', cleaningSchema)
+const ConsultantModel = mongoose.model('Consultant', consultantSchema)
 
-module.exports = CleaningModel
+module.exports = ConsultantModel

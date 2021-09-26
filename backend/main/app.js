@@ -56,11 +56,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
+app.options("*", cors());
 
 
 
-
-app.use('/', cors(), indexRouter);
+app.use('/', indexRouter);
 // app.use('/user', cors(), userRouter);
 // app.use('/admin', cors(), adminRouter);
 

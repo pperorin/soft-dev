@@ -1,8 +1,7 @@
-const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
-const User = require('../models/userModel');
-const Cleaning = require('../models/jobCategoriesModel/cleaningModel');
+const APIFeatures = require('./../../utils/apiFeatures');
+const catchAsync = require('./../../utils/catchAsync');
+const AppError = require('./../../utils/appError');
+const Cleaning = require('../../models/jobCategoriesModel/cleaningModel');
 
 exports.aliasTopTasker = (req, res, next) => {
     req.query.limit = '3';

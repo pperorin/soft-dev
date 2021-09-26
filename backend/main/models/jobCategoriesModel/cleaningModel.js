@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const consultAndRecommendSchema = new Schema({
-    _id: String,
+const cleaningSchema = new Schema({
+    id: {
+        type: Schema.ObjectId
+    },
     reviewtScore: {
         type: Number,
         default: '0'
@@ -15,12 +17,12 @@ const consultAndRecommendSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String
-        // enum:[]
+        type: String,
+        require: true,
+        enum: ['House Cleaning Services', 'Disinfecting Services', 'Laundry Help', 'Air Conditioning Cleaning Service']
     }
 })
 
+const CleaningModel = mongoose.model('Cleaning', cleaningSchema)
 
-const MinorRepairModel = mongoose.model('ConsultAndRecommend', minorRepairSchema)
-
-module.exports = MinorRepairModel
+module.exports = CleaningModel

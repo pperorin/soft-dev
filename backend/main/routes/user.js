@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('./../controllers/userController');
-const taskerController = require('./../controllers/taskerController');
-
-router.get('/', taskerController.aliasTopTasker);
+const authController = require('./../controllers/authController');
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
@@ -20,3 +18,5 @@ router.get('/me', userController.getMe, userController.getUser);
 
 router.patch('/updateMe', userController.uploadUserPhoto, userController.resizeUserPhoto, userController.updateMe);
 router.delete('/deleteMe', userController.deleteMe);
+
+module.exports = router
