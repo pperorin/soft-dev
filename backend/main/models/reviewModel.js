@@ -8,12 +8,10 @@ const contractSchema = new Schema({
     idUser: {
         type: Schema.ObjectId
     },
-    date: {
-        type: Date,
-
-    },
-    location: {
-        type: String
+    reviewScore: {
+        type: Number,
+        require: true,
+        enum: [1, 2, 3, 4, 5]
     },
     Description: {
         type: String

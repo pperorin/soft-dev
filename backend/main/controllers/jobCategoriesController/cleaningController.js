@@ -5,7 +5,7 @@ const Cleaning = require('../../models/jobCategoriesModel/cleaningModel');
 
 exports.aliasTopTasker = (req, res, next) => {
     req.query.limit = '3';
-    req.query.sort = 'firstname,lastname';
+    req.query.sort = 'reviewtScore';
     req.query.fields = 'firstname,lastname';
     next();
 };

@@ -8,15 +8,9 @@ const contractSchema = new Schema({
     idUser: {
         type: Schema.ObjectId
     },
-    date: {
-        type: Date,
-
-    },
-    location: {
-        type: String
-    },
     Description: {
-        type: String
+        type: String,
+        require: true
     },
     ActiveAt: {
         type: Date

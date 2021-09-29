@@ -1,10 +1,17 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+const viewsController = require('./../controllers/viewsController');
 
-router.post('/signup', authController.signup);
-router.post('/login', authController.login);
+router
+    .route('/signup')
+    .get(viewsController.getSignUpForm)
+    .post(authController.signup);
+router
+    .route('/login')
+    .get(viewsController.getLoginForm)
+    .post(authController.login);
 router.get('/logout', authController.logout);
 
 router.post('/forgotPassword', authController.forgotPassword);

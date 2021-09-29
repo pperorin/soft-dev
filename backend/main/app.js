@@ -15,15 +15,22 @@ require('./db');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 var indexRouter = require('./routes/index')
-// var userRouter = require('./routes/user')
-// var adminRouter = require('./routes/admin')
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// 1) GLOBAL MIDDLEWARES
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Set security HTTP headers
+app.use(helmet())
 
 // Middleware
 app.use(morgan('dev'));
+
 
 // Limit requests from same API
 const limiter = rateLimit({
@@ -33,12 +40,13 @@ const limiter = rateLimit({
 });
 app.use('api', limiter);
 
-// Set security HTTP headers
-app.use(helmet())
 
-
-//Body parser, reading data from bodt into req.body
-app.use(express.json({ limit: '10kb' }))
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
+app.use(cors());
+app.options("*", cors());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -54,25 +62,15 @@ app.use(hpp(
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(cors());
-app.options("*", cors());
-
-
-
-app.use('/', indexRouter);
-// app.use('/user', cors(), userRouter);
-// app.use('/admin', cors(), adminRouter);
-
-
-
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toString();
   // console.log(req.headers);
   next();
 })
+
+// 3) Router
+app.use('/', indexRouter);
 
 // error handler
 app.all('*', (req, res, next) => {

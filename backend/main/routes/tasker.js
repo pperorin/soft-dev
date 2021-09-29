@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const authController = require('./../controllers/authController');
 const cleaningController = require('./../controllers/jobCategoriesController/cleaningController');
 const consultantController = require('./../controllers/jobCategoriesController/consultantController');
 const handymanController = require('./../controllers/jobCategoriesController/handymanController');
@@ -8,6 +9,8 @@ const movingServicesController = require('./../controllers/jobCategoriesControll
 const personalAssistantController = require('./../controllers/jobCategoriesController/personalAssistantController');
 const visualAudioController = require('./../controllers/jobCategoriesController/visualAudioController');
 const yardworkController = require('./../controllers/jobCategoriesController/yardworkController');
+
+router.use(authController.protect);
 
 // Cleaning
 router
