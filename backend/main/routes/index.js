@@ -3,14 +3,14 @@ const router = express.Router()
 const userRouter = require('./user');
 const taskerRouter = require('./tasker');
 const adminRouter = require('./admin');
-const homeRouter = require('./home');
+const viewRouter = require('./view');
 
 //router.get('/', taskerController.aliasTopTasker, taskerController.getAllUsers);
 
 const routes = [
   {
     path: "/",
-    route: homeRouter
+    route: viewRouter
   },
   {
     path: "/user",

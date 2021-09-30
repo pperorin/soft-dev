@@ -65,7 +65,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toString();
-  // console.log(req.headers);
   next();
 })
 
