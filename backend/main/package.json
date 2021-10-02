@@ -6,7 +6,9 @@
     "start:dev": "nodemon ./bin/www",
     "start:prod": "NODE_ENV=production nodemon ./bin/www",
     "socket": "nodemon ../socket/app",
-    "dev": "concurrently \"npm run start:dev\" "
+    "dev": "concurrently \"npm run start:dev\" ",
+    "watch:js": "pacel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build:js": "pacel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "dependencies": {
     "axios": "^0.21.4",

@@ -4,9 +4,9 @@ const AppError = require('./../../utils/appError');
 const Consultant = require('../../models/jobCategoriesModel/consultantModel');
 
 exports.aliasTopTasker = (req, res, next) => {
-    req.query.limit = '3';
-    req.query.sort = 'firstname,lastname';
-    req.query.fields = 'firstname,lastname';
+    req.query.limit = '1';
+    req.query.sort = 'reviewtScore';
+    req.query.fields = 'firstname', 'lastname';
     next();
 };
 
