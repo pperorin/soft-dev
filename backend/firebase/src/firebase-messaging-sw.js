@@ -1,19 +1,8 @@
-import { getMessaging, getToken } from "firebase/messaging";
+// TODO: Set up Firebase Cloud Messaging service worker
+import { initializeApp } from 'firebase/app';
+import { getMessaging } from 'firebase/messaging/sw';
+import { getFirebaseConfig } from './firebase-config';
 
-// Get registration token. Initially this makes a network call, once retrieved
-// subsequent calls to getToken will return from cache.
-const messaging = getMessaging();
-getToken(messaging, { vapidKey: 'AIzaSyAg_9EyMdUcw7BGi8ZaqxOnpaOyEnfLTqo' }).then((currentToken) => {
-    if (currentToken) {
-        // Send the token to your server and update the UI if necessary
-        console.log('current token : ', currentToken);
-        // ...
-    } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
-        // ...
-    }
-}).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // ...
-});
+const firebaseApp = initializeApp(getFirebaseConfig());
+getMessaging(firebaseApp);
+console.info('Firebase messaging service worker is set up');

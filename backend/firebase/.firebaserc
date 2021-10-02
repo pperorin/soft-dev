@@ -1,7 +1,6 @@
 {
   "projects": {
-    "default": "tasker-b3a4e",
-    "pperorin": "tasker-b3a4e"
+    "default": "tasker-b3a4e"
   },
   "targets": {}
 }
