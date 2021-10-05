@@ -45,14 +45,15 @@ import {
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getPerformance } from 'firebase/performance';
 
-import { getFirebaseConfig } from './firebase-config.js';
 
+import { getFirebaseConfig } from './firebase-config.js';
 // Signs-in Friendly Chat.
 async function signIn() {
   alert('TODO: Implement Google Sign-In');
   // TODO 1: Sign in Firebase with credential from the Google user.
   var provider = new GoogleAuthProvider();
   await signInWithPopup(getAuth(), provider);
+  
 }
 
 // Signs-out of Friendly Chat.
