@@ -5,6 +5,8 @@ const personalAssistantSchema = new Schema({
     id: {
         type: Schema.ObjectId
     },
+    firstname: String,
+    lastname: String,
     reviewtScore: {
         type: Number,
         default: '0'

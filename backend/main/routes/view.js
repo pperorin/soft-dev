@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
+const taskerController = require('../controllers/taskerController');
+
 const cleaningController = require('../controllers/jobCategoriesController/cleaningController');
 const consultantController = require('../controllers/jobCategoriesController/consultantController');
 const handymanController = require('../controllers/jobCategoriesController/handymanController');
@@ -15,13 +17,6 @@ router.use(authController.isLoggedIn);
 
 router
     .route('/')
-    .get(cleaningController.aliasTopTasker, cleaningController.getAllCleaningUser,
-        consultantController.aliasTopTasker, consultantController.getAllConsultantUser,
-        handymanController.aliasTopTasker, handymanController.getAllHandymanUser,
-        mountingController.aliasTopTasker, mountingController.getAllMountingUser,
-        movingServicesController.aliasTopTasker, movingServicesController.getAllMovingServicesUser,
-        personalAssistantController.aliasTopTasker, personalAssistantController.getAllPersonalAssistantUser,
-        visualAudioController.aliasTopTasker, visualAudioController.getAllVisualAudioUser,
-        yardworkController.aliasTopTasker, yardworkController.getAllYardworkUser);
+    .get(taskerController.indexPage);
 
 module.exports = router

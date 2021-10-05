@@ -1,12 +1,13 @@
 const APIFeatures = require('./../../utils/apiFeatures');
 const catchAsync = require('./../../utils/catchAsync');
 const AppError = require('./../../utils/appError');
+const User = require('../../models/userModel');
 const Consultant = require('../../models/jobCategoriesModel/consultantModel');
 
 exports.aliasTopTasker = (req, res, next) => {
     req.query.limit = '1';
     req.query.sort = 'reviewtScore';
-    req.query.fields = 'firstname', 'lastname';
+    req.query.fields = 'subCategories', 'reviewtScore', 'description';
     next();
 };
 
@@ -52,7 +53,15 @@ exports.getConsultantUser = catchAsync(async (req, res, next) => {
 
 exports.createConsultantUser = catchAsync(async (req, res, next) => {
     req.body.id = req.params.id;
-    console.log(req.body)
+    const duplicate = await Consultant.find({ id: req.body.id })
+    for (let i = 0; i < duplicate.length; i++) {
+        if (req.body.subCategories == duplicate[i].subCategories) {
+            return next(new AppError('Duplicate SubCategories', 404))
+        }
+    }
+    const user = await User.findById(req.params.id);
+    req.body.firstname = user.firstname;
+    req.body.lastname = user.lastname;
 
     const newConsultantUser = await Consultant.create(req.body);
 
