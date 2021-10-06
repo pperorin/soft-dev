@@ -12,6 +12,8 @@ router
     .route('/login')
     .get(viewsController.getLoginForm)
     .post(authController.login);
+
+//router.route('/users').get(userController.getAllUsers);
 router.get('/logout', authController.logout);
 
 router.post('/forgotPassword', authController.forgotPassword);

@@ -21,6 +21,7 @@ const personalAssistantSchema = new Schema({
     subCategories: {
         type: [String],
         require: true
+        //['Friend trave', 'Furniture Movers', 'Rearrange Furniture']
     }
 })
 

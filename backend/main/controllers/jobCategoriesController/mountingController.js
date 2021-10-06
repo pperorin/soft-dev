@@ -6,7 +6,7 @@ const Mounting = require('../../models/jobCategoriesModel/mountingModel');
 
 exports.aliasTopTasker = (req, res, next) => {
     req.query.limit = '10';
-    req.query.sort = 'reviewtScore';
+    req.query.sort = '-reviewtScore';
     req.query.fields = 'id,firstname,lastname,reviewScore,description,province,subCategories';
     req.query.paginate = 5
     next();

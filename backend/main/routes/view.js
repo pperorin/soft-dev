@@ -8,6 +8,7 @@ router.use(authController.isLoggedIn);
 
 router
     .route('/')
+    // .get(viewController.aliasTopTasker, viewController.getindex);
     .get(viewController.getindex);
 
 module.exports = router

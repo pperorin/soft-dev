@@ -6,7 +6,7 @@ const Yardwork = require('../../models/jobCategoriesModel/yardworkModel');
 
 exports.aliasTopTasker = (req, res, next) => {
     req.query.limit = '7';
-    req.query.sort = 'reviewtScore';
+    req.query.sort = '-reviewtScore';
     req.query.fields = 'id,firstname,lastname,reviewScore,description,province,subCategories';
     next();
 };

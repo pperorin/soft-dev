@@ -12,10 +12,18 @@ const PersonalAssistant = require('../models/jobCategoriesModel/personalAssistan
 const VisualAudio = require('../models/jobCategoriesModel/visualAudioModel');
 const Yardwork = require('../models/jobCategoriesModel/yardworkModel');
 
+// exports.aliasTopTasker = (req, res, next) => {
+//     req.query.limit = '1';
+//     req.query.sort = '-reviewScore';
+//     req.query.fields = 'id,firstname,lastname,reviewScore,description,province,subCategories';
+//     next();
+// };
+
 exports.getindex = catchAsync(async (req, res, next) => {
     req.query.limit = '1';
-    req.query.sort = 'reviewScore';
+    req.query.sort = '-reviewScore';
     req.query.fields = 'id,firstname,lastname,reviewScore,description,province,subCategories';
+
     const cleaning = new APIFeatures(Cleaning.find(), req.query).filter().sort().limitFields().paginate();
     const consultant = new APIFeatures(Consultant.find(), req.query).filter().sort().limitFields().paginate();
     const handyman = new APIFeatures(Handyman.find(), req.query).filter().sort().limitFields().paginate();

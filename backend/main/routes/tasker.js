@@ -15,7 +15,7 @@ router.use(authController.protect);
 // Cleaning
 router
     .route('/cleaning')
-    .get(cleaningController.getAllCleaningUser)
+    .get(cleaningController.aliasTopTasker, cleaningController.getAllCleaningUser)
     .post(cleaningController.getUserID, cleaningController.createCleaningUser);
 router
     .route('/cleaning/:id')
