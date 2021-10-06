@@ -2,8 +2,6 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-const { default: axios } = require("axios");
-
 export const login = async (email, password) => {
     try {
         const res = await axios({

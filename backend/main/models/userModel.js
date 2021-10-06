@@ -59,7 +59,10 @@ const userSchema = new Schema({
     type: String,
     default: 'default.jpg'
   },
-  money: Number,
+  money: {
+    type: Number,
+    default: 0
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,

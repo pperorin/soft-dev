@@ -7,7 +7,7 @@ const consultantSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,8 +19,9 @@ const consultantSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String,
-        enum: ['Marketing', 'Legal', 'Financial-planning', 'Horoscope', 'Tutoring', 'Feng-shui', 'Psychologist']
+        type: [String],
+        require: true,
+        //enum: ['Marketing', 'Legal', 'Financial-planning', 'Horoscope', 'Tutoring', 'Feng-shui', 'Psychologist']
     }
 })
 

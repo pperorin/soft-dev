@@ -7,7 +7,7 @@ const cleaningSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,9 +19,9 @@ const cleaningSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String,
+        type: [String],
         require: true,
-        enum: ['House Cleaning Services', 'Disinfecting Services', 'Laundry Help', 'Air Conditioning Cleaning Service']
+        //enum: ['House Cleaning Services', 'Disinfecting Services', 'Laundry Help', 'Air Conditioning Cleaning Service']
     }
 })
 

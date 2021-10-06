@@ -7,7 +7,7 @@ const personalAssistantSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,7 +19,8 @@ const personalAssistantSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String
+        type: [String],
+        require: true
     }
 })
 

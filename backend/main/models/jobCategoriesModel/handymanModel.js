@@ -7,7 +7,7 @@ const handymanSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,8 +19,9 @@ const handymanSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String,
-        enum: ['Home Repairs', 'Furniture Assembly', 'Plumbing', 'Mounting', 'Electrical Help', 'Heavy Lifting']
+        type: [String],
+        require: true,
+        //enum: ['Home Repairs', 'Furniture Assembly', 'Plumbing', 'Mounting', 'Electrical Help', 'Heavy Lifting']
     }
 })
 

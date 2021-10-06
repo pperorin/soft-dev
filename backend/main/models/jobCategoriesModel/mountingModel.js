@@ -7,7 +7,7 @@ const mountingSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,8 +19,9 @@ const mountingSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String,
-        enum: ['TV Mounting', 'Hanging Curtains & Installing Blinds', 'Mounting solar', 'Door & Window Installation', 'Light Installation']
+        type: [String],
+        require: true,
+        //enum: ['TV Mounting', 'Hanging Curtains & Installing Blinds', 'Mounting solar', 'Door & Window Installation', 'Light Installation']
     }
 })
 

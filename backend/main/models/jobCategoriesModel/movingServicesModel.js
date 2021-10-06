@@ -7,7 +7,7 @@ const movingServicesSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,8 +19,9 @@ const movingServicesSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String,
-        enum: ['Help Moving', 'Furniture Movers', 'Rearrange Furniture']
+        type: [String],
+        require: true,
+        //enum: ['Help Moving', 'Furniture Movers', 'Rearrange Furniture']
     }
 })
 

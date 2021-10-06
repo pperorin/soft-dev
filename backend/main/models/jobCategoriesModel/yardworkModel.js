@@ -7,7 +7,7 @@ const yardworkSchema = new Schema({
     },
     firstname: String,
     lastname: String,
-    reviewtScore: {
+    reviewScore: {
         type: Number,
         default: '0'
     },
@@ -19,8 +19,9 @@ const yardworkSchema = new Schema({
         required: [true, 'Please provide your province']
     },
     subCategories: {
-        type: String,
-        enum: ['Tree Trimming Service', 'Hedge Trimming Service', 'Lawn Mowing', 'Gutter Cleaning', 'Patio Cleaning', 'Pool Cleaning Services']
+        type: [String],
+        require: true,
+        //enum: ['Tree Trimming Service', 'Hedge Trimming Service', 'Lawn Mowing', 'Gutter Cleaning', 'Patio Cleaning', 'Pool Cleaning Services']
     }
 })
 

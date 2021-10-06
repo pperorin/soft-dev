@@ -5,9 +5,9 @@ const User = require('../../models/userModel');
 const Handyman = require('../../models/jobCategoriesModel/handymanModel');
 
 exports.aliasTopTasker = (req, res, next) => {
-    req.query.limit = '1';
+    req.query.limit = '7';
     req.query.sort = 'reviewtScore';
-    req.query.fields = 'subCategories', 'reviewtScore', 'description';
+    req.query.fields = 'id,firstname,lastname,reviewScore,description,province,subCategories';
     next();
 };
 
@@ -54,11 +54,9 @@ exports.getHandymanUser = catchAsync(async (req, res, next) => {
 exports.createHandymanUser = catchAsync(async (req, res, next) => {
     req.body.id = req.params.id;
     const duplicate = await Handyman.find({ id: req.body.id })
-    for (let i = 0; i < duplicate.length; i++) {
-        if (req.body.subCategories == duplicate[i].subCategories) {
-            return next(new AppError('Duplicate SubCategories', 404))
-        }
-    }
+    if (duplicate.length > 0)
+        return next(new AppError('Duplicate User', 404))
+
     const user = await User.findById(req.params.id);
     req.body.firstname = user.firstname;
     req.body.lastname = user.lastname;

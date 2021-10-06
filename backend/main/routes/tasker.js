@@ -18,8 +18,8 @@ router
     .get(cleaningController.getAllCleaningUser)
     .post(cleaningController.getUserID, cleaningController.createCleaningUser);
 router
-    .route('/cleaning/Me')
-    .get(cleaningController.getUserID, cleaningController.getCleaningUser);
+    .route('/cleaning/:id')
+    .get(cleaningController.getCleaningUser);
 
 // Consultant
 router
@@ -27,8 +27,8 @@ router
     .get(consultantController.getAllConsultantUser)
     .post(consultantController.getUserID, consultantController.createConsultantUser);
 router
-    .route('/consultant/Me')
-    .get(consultantController.getUserID, consultantController.getConsultantUser);
+    .route('/consultant/:id')
+    .get(consultantController.getConsultantUser);
 
 // Handyman
 router
@@ -36,8 +36,8 @@ router
     .get(handymanController.getAllHandymanUser)
     .post(handymanController.getUserID, handymanController.createHandymanUser);
 router
-    .route('/handyman/Me')
-    .get(handymanController.getUserID, handymanController.getHandymanUser);
+    .route('/handyman/:id')
+    .get(handymanController.getHandymanUser);
 
 // Mounting
 router
@@ -45,8 +45,8 @@ router
     .get(mountingController.getAllMountingUser)
     .post(mountingController.getUserID, mountingController.createMountingUser);
 router
-    .route('/mounting/Me')
-    .get(mountingController.getUserID, mountingController.getMountingUser);
+    .route('/mounting/:id')
+    .get(mountingController.getMountingUser);
 
 // MovingServices
 router
@@ -54,8 +54,8 @@ router
     .get(movingServicesController.getAllMovingServicesUser)
     .post(movingServicesController.getUserID, movingServicesController.createMovingServicesUser);
 router
-    .route('/movingServices/Me')
-    .get(movingServicesController.getUserID, movingServicesController.getMovingServicesUser);
+    .route('/movingServices/:id')
+    .get(movingServicesController.getMovingServicesUser);
 
 // PersonalAssistant
 router
@@ -63,8 +63,8 @@ router
     .get(personalAssistantController.getAllPersonalAssistantUser)
     .post(personalAssistantController.getUserID, personalAssistantController.createPersonalAssistantUser);
 router
-    .route('/personalAssistant/Me')
-    .get(personalAssistantController.getUserID, personalAssistantController.getPersonalAssistantUser);
+    .route('/personalAssistant/:id')
+    .get(personalAssistantController.getPersonalAssistantUser);
 
 // VisualAudio
 router
@@ -72,8 +72,8 @@ router
     .get(visualAudioController.getAllVisualAudioUser)
     .post(visualAudioController.getUserID, visualAudioController.createVisualAudioUser);
 router
-    .route('/visualAudio/Me')
-    .get(visualAudioController.getUserID, visualAudioController.getVisualAudioUser);
+    .route('/visualAudio/:id')
+    .get(visualAudioController.getVisualAudioUser);
 
 // VisualAudio
 router
@@ -81,8 +81,8 @@ router
     .get(yardworkController.getAllYardworkUser)
     .post(yardworkController.getUserID, yardworkController.createYardworkUser);
 router
-    .route('/yardwork/Me')
-    .get(yardworkController.getUserID, yardworkController.getYardworkUser);
+    .route('/yardwork/:id')
+    .get(yardworkController.getYardworkUser);
 
 module.exports = router
 
