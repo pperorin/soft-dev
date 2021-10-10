@@ -1,6 +1,6 @@
 {
-  "name": "Friendly Chat",
-  "short_name": "Friendly Chat",
+  "name": "Tasker Chat",
+  "short_name": "Tasker Chat",
   "start_url": "/index.html",
   "display": "standalone",
   "orientation": "portrait"

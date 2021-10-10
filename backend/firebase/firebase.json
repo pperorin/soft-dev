@@ -30,7 +30,7 @@
       "port": 8080
     },
     "ui": {
-      "enabled": true,
+      "enabled": false,
       "port": 5050
     }
   }

@@ -104,10 +104,10 @@ async function saveMessage(messageText) {
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
+  var personSelectElement = document.getElementById('select-person');
   // TODO 8: Load and listen for new messages.
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp', 'desc'), limit(12));
-  
   // Start listening to the query.
   onSnapshot(recentMessagesQuery, function(snapshot) {
     snapshot.docChanges().forEach(function(change) {
@@ -115,8 +115,19 @@ function loadMessages() {
         deleteMessage(change.doc.id);
       } else {
         var message = change.doc.data();
-        displayMessage(change.doc.id, message.timestamp, message.name,
+        deleteMessage(change.doc.id);
+        if (getUserName() == message.name) {
+          displayMessage(change.doc.id, message.timestamp, message.name,
+            message.text, message.profilePicUrl, message.imageUrl);
+        }
+        if (personSelectElement.value == message.name) {
+          displayMessage(change.doc.id, message.timestamp, message.name,
                       message.text, message.profilePicUrl, message.imageUrl);
+        }
+        else if (personSelectElement.value == "show_all") {
+          displayMessage(change.doc.id, message.timestamp, message.name,
+            message.text, message.profilePicUrl, message.imageUrl);
+        }
       }
     });
   });
@@ -403,6 +414,34 @@ function toggleButton() {
     submitButtonElement.setAttribute('disabled', 'true');
   }
 }
+//////////////////////////Test///////////////////////////////////////////////
+var SelectElement = document.getElementById('load-person');
+var personSelectElement = document.getElementById('select-person');
+function addPerson() {
+  const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp', 'desc'), limit(12));
+  var listOfPerson = [];
+  // Start listening to the query.
+  onSnapshot(recentMessagesQuery, function (snapshot) {
+    snapshot.docChanges().forEach(function (change) {
+      if (change.type === 'removed') {
+        deleteMessage(change.doc.id);
+      } else {
+        var person = change.doc.data();
+        if (listOfPerson.indexOf(person.name) === -1) {
+          listOfPerson.push(person.name)
+        }
+      }
+    });
+    for (var i = 0, l = listOfPerson.length; i < l; i++) {
+      var option = listOfPerson[i];
+      personSelectElement.options.add(new Option(option));
+    }
+  });
+  SelectElement.setAttribute('disabled', 'true');
+
+}
+SelectElement.addEventListener('click', addPerson);
+personSelectElement.addEventListener('change', loadMessages);
 
 // Shortcuts to DOM Elements.
 var messageListElement = document.getElementById('messages');

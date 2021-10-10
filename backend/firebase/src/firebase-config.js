@@ -8,14 +8,13 @@
  */
 const config = {
   /* TODO: ADD YOUR FIREBASE CONFIGURATION OBJECT HERE */
-  apiKey: "AIzaSyDGQm1CEvkDLwHY4_EDT-x0y4oYs52NXlQ",
-  authDomain: "tasker-b3a4e.firebaseapp.com",
-  databaseURL: "https://tasker-b3a4e-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "tasker-b3a4e",
-  storageBucket: "tasker-b3a4e.appspot.com",
-  messagingSenderId: "391645949433",
-  appId: "1:391645949433:web:9ff560719513fb0ba3e128",
-  measurementId: "G-EFFR1ZL5H4"
+  apiKey: "AIzaSyDIt_GIFvRJHpsSy4gRrdsrLuBn_GQxblE",
+  authDomain: "friendlychat-ec912.firebaseapp.com",
+  databaseURL: "https://friendlychat-ec912-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "friendlychat-ec912",
+  storageBucket: "friendlychat-ec912.appspot.com",
+  messagingSenderId: "321159238761",
+  appId: "1:321159238761:web:7d40c6dd86105204e8fef8"
 };
 export function getFirebaseConfig() {
   if (!config || !config.apiKey) {
