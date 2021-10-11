@@ -25,7 +25,6 @@ const handymanSchema = new Schema({
     }
 })
 
-
 const HandymanModel = mongoose.model('Handyman', handymanSchema)
 
 module.exports = HandymanModel

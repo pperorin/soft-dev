@@ -14,38 +14,38 @@ router.use(authController.protect);
 
 // Cleaning
 router
-    .route('/cleaning')
+    .route('/cleanings')
     .get(cleaningController.aliasTopTasker, cleaningController.getAllCleaningUser)
     .post(cleaningController.getUserID, cleaningController.createCleaningUser);
 router
-    .route('/cleaning/:id')
+    .route('/cleanings/:id')
     .get(cleaningController.getCleaningUser);
 
 // Consultant
 router
-    .route('/consultant')
+    .route('/consultants')
     .get(consultantController.getAllConsultantUser)
     .post(consultantController.getUserID, consultantController.createConsultantUser);
 router
-    .route('/consultant/:id')
+    .route('/consultants/:id')
     .get(consultantController.getConsultantUser);
 
 // Handyman
 router
-    .route('/handyman')
+    .route('/handymans')
     .get(handymanController.getAllHandymanUser)
     .post(handymanController.getUserID, handymanController.createHandymanUser);
 router
-    .route('/handyman/:id')
+    .route('/handymans/:id')
     .get(handymanController.getHandymanUser);
 
 // Mounting
 router
-    .route('/mounting')
+    .route('/mountings')
     .get(mountingController.getAllMountingUser)
     .post(mountingController.getUserID, mountingController.createMountingUser);
 router
-    .route('/mounting/:id')
+    .route('/mountings/:id')
     .get(mountingController.getMountingUser);
 
 // MovingServices
@@ -59,30 +59,31 @@ router
 
 // PersonalAssistant
 router
-    .route('/personalAssistant')
+    .route('/personalAssistants')
     .get(personalAssistantController.getAllPersonalAssistantUser)
     .post(personalAssistantController.getUserID, personalAssistantController.createPersonalAssistantUser);
 router
-    .route('/personalAssistant/:id')
+    .route('/personalAssistants/:id')
     .get(personalAssistantController.getPersonalAssistantUser);
 
 // VisualAudio
 router
-    .route('/visualAudio')
+    .route('/visualAudios')
     .get(visualAudioController.getAllVisualAudioUser)
     .post(visualAudioController.getUserID, visualAudioController.createVisualAudioUser);
 router
-    .route('/visualAudio/:id')
+    .route('/visualAudios/:id')
     .get(visualAudioController.getVisualAudioUser);
 
 // VisualAudio
 router
-    .route('/yardwork')
+    .route('/yardworks')
     .get(yardworkController.getAllYardworkUser)
     .post(yardworkController.getUserID, yardworkController.createYardworkUser);
 router
-    .route('/yardwork/:id')
+    .route('/yardworks/:id')
     .get(yardworkController.getYardworkUser);
+
 
 module.exports = router
 

@@ -1,27 +1,33 @@
+// review / rating / createdAt / ref to tasker / ref to user
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema
 
-const contractSchema = new Schema({
-    idTasker: {
-        type: Schema.ObjectId
-    },
-    idUser: {
-        type: Schema.ObjectId
-    },
-    reviewScore: {
-        type: Number,
-        require: true,
-        enum: [1, 2, 3, 4, 5]
-    },
-    Description: {
-        type: String
-    },
-    ActiveAt: {
-        type: Date
+const reviewSchema = new mongoose.Schema(
+    {
+        review: {
+            type: String,
+            required: [true, 'Review can not be empty!']
+        },
+        rating: {
+            type: Number,
+            min: 1,
+            max: 5
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        },
+        tasker: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Tasker',
+            required: [true, 'Review must belong to a tasker.']
+        },
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: [true, 'Review must belong to a user']
+        }
     }
-})
+);
 
-
-const ContractModel = mongoose.model('Contract', contractSchema)
-
-module.exports = ContractModel
+const Review = mongoose.model('Review', reviewSchema);
+module.exports = Review;

@@ -4,6 +4,8 @@ const userRouter = require('./user');
 const taskerRouter = require('./tasker');
 const adminRouter = require('./admin');
 const viewRouter = require('./view');
+const reviewRouter = require('./review');
+const reportRouter = require('./report');
 
 //router.get('/', taskerController.aliasTopTasker, taskerController.getAllUsers);
 
@@ -24,6 +26,14 @@ const routes = [
     path: "/admin",
     route: adminRouter
   },
+  {
+    path: "/review",
+    route: reviewRouter
+  },
+  {
+    path: "/report",
+    route: reportRouter
+  }
 ];
 
 routes.forEach((route) => {
