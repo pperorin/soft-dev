@@ -17,7 +17,7 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllVisualAudioUser = catchAsync(async (req, res, next) => {
-
+    subCategories = ['Photography', 'Videography', 'Voice-over', 'Singer-band', 'Animations', 'Podcast', 'Subtitle', 'Sound Engineering', 'Makeup'];
     const features = new APIFeatures(VisualAudio.find(), req.query)
         .filter()
         .sort()
@@ -30,6 +30,7 @@ exports.getAllVisualAudioUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            subCategories,
             users
         }
     });
@@ -38,6 +39,22 @@ exports.getAllVisualAudioUser = catchAsync(async (req, res, next) => {
 exports.getVisualAudioUser = catchAsync(async (req, res, next) => {
 
     const user = await VisualAudio.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getVisualAudioSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await VisualAudio.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

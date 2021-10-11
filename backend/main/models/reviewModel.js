@@ -25,6 +25,11 @@ const reviewSchema = new mongoose.Schema(
             type: mongoose.Schema.ObjectId,
             ref: 'User',
             required: [true, 'Review must belong to a user']
+        },
+        categories: {
+            type: String,
+            require: true,
+            enum: ["cleaning", "consultant", "handyman", "mounting", "moving service", "personal assistant", "visual audio", "yardwork"]
         }
     }
 );

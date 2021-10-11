@@ -17,7 +17,7 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllConsultantUser = catchAsync(async (req, res, next) => {
-
+    subCategories = ['Marketing', 'Legal', 'Financial-planning', 'Horoscope', 'Tutoring', 'Feng-shui', 'Psychologist']
     const features = new APIFeatures(Consultant.find(), req.query)
         .filter()
         .sort()
@@ -30,6 +30,7 @@ exports.getAllConsultantUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            subCategories,
             users
         }
     });
@@ -38,6 +39,22 @@ exports.getAllConsultantUser = catchAsync(async (req, res, next) => {
 exports.getConsultantUser = catchAsync(async (req, res, next) => {
 
     const user = await Consultant.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getConsultantSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await Consultant.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

@@ -17,7 +17,7 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllMovingServicesUser = catchAsync(async (req, res, next) => {
-
+    subCategories = ['Help Moving', 'Furniture Movers', 'Rearrange Furniture'];
     const features = new APIFeatures(MovingServices.find(), req.query)
         .filter()
         .sort()
@@ -30,6 +30,7 @@ exports.getAllMovingServicesUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            subCategories,
             users
         }
     });
@@ -38,6 +39,22 @@ exports.getAllMovingServicesUser = catchAsync(async (req, res, next) => {
 exports.getMovingServicesUser = catchAsync(async (req, res, next) => {
 
     const user = await MovingServices.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getMovingServicesSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await MovingServices.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

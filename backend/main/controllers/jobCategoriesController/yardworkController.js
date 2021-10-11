@@ -17,7 +17,7 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllYardworkUser = catchAsync(async (req, res, next) => {
-
+    subCategories = ['Tree Trimming Service', 'Hedge Trimming Service', 'Lawn Mowing', 'Gutter Cleaning', 'Patio Cleaning', 'Pool Cleaning Services'];
     const features = new APIFeatures(Yardwork.find(), req.query)
         .filter()
         .sort()
@@ -30,6 +30,7 @@ exports.getAllYardworkUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            subCategories,
             users
         }
     });
@@ -38,6 +39,22 @@ exports.getAllYardworkUser = catchAsync(async (req, res, next) => {
 exports.getYardworkUser = catchAsync(async (req, res, next) => {
 
     const user = await Yardwork.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getYardworkSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await Yardwork.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

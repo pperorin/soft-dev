@@ -17,7 +17,6 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllPersonalAssistantUser = catchAsync(async (req, res, next) => {
-
     const features = new APIFeatures(PersonalAssistant.find(), req.query)
         .filter()
         .sort()
@@ -30,6 +29,7 @@ exports.getAllPersonalAssistantUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            //subCategories,
             users
         }
     });
@@ -38,6 +38,22 @@ exports.getAllPersonalAssistantUser = catchAsync(async (req, res, next) => {
 exports.getPersonalAssistantUser = catchAsync(async (req, res, next) => {
 
     const user = await PersonalAssistant.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getPersonalAssistantSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await PersonalAssistant.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

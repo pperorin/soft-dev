@@ -2,11 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const contractSchema = new Schema({
-    idTasker: {
-        type: Schema.ObjectId
+    tasker: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Tasker',
+        required: [true, 'Review must belong to a tasker.']
     },
-    idUser: {
-        type: Schema.ObjectId
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: [true, 'Review must belong to a user']
     },
     date: {
         type: Date,

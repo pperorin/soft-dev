@@ -20,6 +20,9 @@ router
 router
     .route('/cleanings/:id')
     .get(cleaningController.getCleaningUser);
+router
+    .route('/cleanings/sub/:subCategories')
+    .get(cleaningController.getCleaningSubCategories);
 
 // Consultant
 router
@@ -29,15 +32,21 @@ router
 router
     .route('/consultants/:id')
     .get(consultantController.getConsultantUser);
+router
+    .route('/consultants/sub/:subCategories')
+    .get(consultantController.getConsultantSubCategories);
 
 // Handyman
 router
-    .route('/handymans')
+    .route('/handymen')
     .get(handymanController.getAllHandymanUser)
     .post(handymanController.getUserID, handymanController.createHandymanUser);
 router
-    .route('/handymans/:id')
+    .route('/handymen/:id')
     .get(handymanController.getHandymanUser);
+router
+    .route('/handymen/sub/:subCategories')
+    .get(handymanController.getHandymanSubCategories);
 
 // Mounting
 router
@@ -47,6 +56,9 @@ router
 router
     .route('/mountings/:id')
     .get(mountingController.getMountingUser);
+router
+    .route('/mountings/sub/:subCategories')
+    .get(mountingController.getMountingSubCategories);
 
 // MovingServices
 router
@@ -56,6 +68,10 @@ router
 router
     .route('/movingServices/:id')
     .get(movingServicesController.getMovingServicesUser);
+router
+    .route('/movingServices/sub/:subCategories')
+    .get(movingServicesController.getMovingServicesSubCategories);
+
 
 // PersonalAssistant
 router
@@ -65,6 +81,10 @@ router
 router
     .route('/personalAssistants/:id')
     .get(personalAssistantController.getPersonalAssistantUser);
+router
+    .route('/personalAssistants/sub/:subCategories')
+    .get(personalAssistantController.getPersonalAssistantSubCategories);
+
 
 // VisualAudio
 router
@@ -74,6 +94,10 @@ router
 router
     .route('/visualAudios/:id')
     .get(visualAudioController.getVisualAudioUser);
+router
+    .route('/visualAudios/sub/:subCategories')
+    .get(visualAudioController.getVisualAudioSubCategories);
+
 
 // VisualAudio
 router
@@ -83,6 +107,10 @@ router
 router
     .route('/yardworks/:id')
     .get(yardworkController.getYardworkUser);
+router
+    .route('/yardworks/sub/:subCategories')
+    .get(yardworkController.getYardworkSubCategories);
+
 
 
 module.exports = router

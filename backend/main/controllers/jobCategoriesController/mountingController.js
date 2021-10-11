@@ -18,7 +18,7 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllMountingUser = catchAsync(async (req, res, next) => {
-
+    subCategories = ['TV Mounting', 'Hanging Curtains & Installing Blinds', 'Mounting solar', 'Door & Window Installation', 'Light Installation'];
     const features = new APIFeatures(Mounting.find(), req.query)
         .filter()
         .sort()
@@ -31,6 +31,7 @@ exports.getAllMountingUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            subCategories,
             users
         }
     });
@@ -39,6 +40,22 @@ exports.getAllMountingUser = catchAsync(async (req, res, next) => {
 exports.getMountingUser = catchAsync(async (req, res, next) => {
 
     const user = await Mounting.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getMountingSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await Mounting.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

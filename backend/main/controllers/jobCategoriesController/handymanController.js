@@ -17,7 +17,7 @@ exports.getUserID = (req, res, next) => {
 };
 
 exports.getAllHandymanUser = catchAsync(async (req, res, next) => {
-
+    subCategories = ['Home Repairs', 'Furniture Assembly', 'Plumbing', 'Mounting', 'Electrical Help', 'Heavy Lifting'];
     const features = new APIFeatures(Handyman.find(), req.query)
         .filter()
         .sort()
@@ -30,6 +30,7 @@ exports.getAllHandymanUser = catchAsync(async (req, res, next) => {
         status: 'success',
         result: users.length,
         data: {
+            subCategories,
             users
         }
     });
@@ -38,6 +39,22 @@ exports.getAllHandymanUser = catchAsync(async (req, res, next) => {
 exports.getHandymanUser = catchAsync(async (req, res, next) => {
 
     const user = await Handyman.find({ id: req.params.id });
+
+    if (!user) {
+        return next(new AppError('No user found with thai ID', 404))
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+});
+
+exports.getHandymanSubCategories = catchAsync(async (req, res, next) => {
+
+    const user = await Handyman.find({ subCategories: req.params.subCategories });
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))
