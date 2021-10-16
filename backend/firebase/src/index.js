@@ -94,7 +94,8 @@ async function saveMessage(messageText) {
       name: getUserName(),
       text: messageText,
       profilePicUrl: getProfilePicUrl(),
-      timestamp: serverTimestamp()
+      timestamp: serverTimestamp(),
+      receiver: "Receiver's Name"
     });
   }
   catch(error) {
