@@ -5,16 +5,14 @@ const contractSchema = new Schema({
     tasker: {
         type: mongoose.Schema.ObjectId,
         ref: 'Tasker',
-        required: [true, 'Review must belong to a tasker.']
     },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        required: [true, 'Review must belong to a user']
     },
     date: {
         type: Date,
-
+        required: [true, 'The contract must have a date']
     },
     location: {
         type: String
@@ -22,11 +20,15 @@ const contractSchema = new Schema({
     Description: {
         type: String
     },
+    price: Number,
     ActiveAt: {
         type: Date
+    },
+    Active: {
+        type: Boolean,
+        default: true
     }
 })
-
 
 const ContractModel = mongoose.model('Contract', contractSchema)
 

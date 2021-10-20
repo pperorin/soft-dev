@@ -59,9 +59,12 @@ const userSchema = new Schema({
     type: String,
     default: 'default.jpg'
   },
-  money: {
+  wallet: {
     type: Number,
     default: 0
+  },
+  history: {
+    type: [String]
   },
   passwordChangedAt: Date,
   passwordResetToken: String,

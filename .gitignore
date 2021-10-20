@@ -1,2 +1,4 @@
 backend/main/node_modules
+backend/main/.cache
 backend/firebase/node_modules
+backend/main/config.env

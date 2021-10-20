@@ -45,6 +45,8 @@ import {
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getPerformance } from 'firebase/performance';
 
+// import { testgetUserName, getMe } from '../../main/controllers/userController';
+
 
 import { getFirebaseConfig } from './firebase-config.js';
 // Signs-in Friendly Chat.
@@ -53,7 +55,7 @@ async function signIn() {
   // TODO 1: Sign in Firebase with credential from the Google user.
   var provider = new GoogleAuthProvider();
   await signInWithPopup(getAuth(), provider);
-  
+
 }
 
 // Signs-out of Friendly Chat.
@@ -76,7 +78,6 @@ function getProfilePicUrl() {
 
 // Returns the signed-in user's display name.
 function getUserName() {
-  // TODO 5: Return the user's display name.
   return getAuth().currentUser.displayName;
 }
 
@@ -98,7 +99,7 @@ async function saveMessage(messageText) {
       receiver: "Receiver's Name"
     });
   }
-  catch(error) {
+  catch (error) {
     console.error('Error writing new message to Firebase Database', error);
   }
 }
@@ -110,8 +111,8 @@ function loadMessages() {
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(collection(getFirestore(), 'messages'), orderBy('timestamp', 'desc'), limit(12));
   // Start listening to the query.
-  onSnapshot(recentMessagesQuery, function(snapshot) {
-    snapshot.docChanges().forEach(function(change) {
+  onSnapshot(recentMessagesQuery, function (snapshot) {
+    snapshot.docChanges().forEach(function (change) {
       if (change.type === 'removed') {
         deleteMessage(change.doc.id);
       } else {
@@ -123,7 +124,7 @@ function loadMessages() {
         }
         if (personSelectElement.value == message.name) {
           displayMessage(change.doc.id, message.timestamp, message.name,
-                      message.text, message.profilePicUrl, message.imageUrl);
+            message.text, message.profilePicUrl, message.imageUrl);
         }
         else if (personSelectElement.value == "show_all") {
           displayMessage(change.doc.id, message.timestamp, message.name,
@@ -151,12 +152,12 @@ async function saveImageMessage(file) {
     const filePath = `${getAuth().currentUser.uid}/${messageRef.id}/${file.name}`;
     const newImageRef = ref(getStorage(), filePath);
     const fileSnapshot = await uploadBytesResumable(newImageRef, file);
-    
+
     // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
 
     // 4 - Update the chat message placeholder with the image's URL.
-    await updateDoc(messageRef,{
+    await updateDoc(messageRef, {
       imageUrl: publicImageUrl,
       storageUri: fileSnapshot.metadata.fullPath
     });
@@ -188,7 +189,7 @@ async function saveMessagingDeviceToken() {
       // Need to request permissions to show notifications.
       requestNotificationsPermissions();
     }
-  } catch(error) {
+  } catch (error) {
     console.error('Unable to get messaging token.', error);
   };
 }
@@ -198,7 +199,7 @@ async function requestNotificationsPermissions() {
   // TODO 11: Request permissions to send notifications.
   console.log('Requesting notifications permission...');
   const permission = await Notification.requestPermission();
-  
+
   if (permission === 'granted') {
     console.log('Notification permission granted.');
     // Notification permission granted.

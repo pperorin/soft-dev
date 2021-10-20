@@ -187,3 +187,9 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
     });
 
 });
+
+exports.testgetUserName = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    const name = user.firstname + user.lastname;
+    return name
+});

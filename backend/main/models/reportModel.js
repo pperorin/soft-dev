@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const contractSchema = new Schema(
+const reportSchema = new Schema(
     {
         description: {
             type: String,
@@ -29,5 +29,5 @@ const contractSchema = new Schema(
 );
 
 
-const ContractModel = mongoose.model('Contract', contractSchema)
-module.exports = ContractModel
+const ReportModel = mongoose.model('Report', reportSchema)
+module.exports = ReportModel
