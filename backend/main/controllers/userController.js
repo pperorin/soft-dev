@@ -136,7 +136,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 
 
 exports.getUser = catchAsync(async (req, res, next) => {
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id);
 
     if (!user) {
         return next(new AppError('No user found with thai ID', 404))

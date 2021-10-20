@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
+
 const authController = require('./../controllers/authController');
+const userController = require('../controllers/userController');
 const cleaningController = require('./../controllers/jobCategoriesController/cleaningController');
 const consultantController = require('./../controllers/jobCategoriesController/consultantController');
 const handymanController = require('./../controllers/jobCategoriesController/handymanController');
@@ -16,7 +18,7 @@ router.use(authController.protect);
 router
     .route('/cleanings')
     .get(cleaningController.aliasTopTasker, cleaningController.getAllCleaningUser)
-    .post(cleaningController.getUserID, cleaningController.createCleaningUser);
+    .post(userController.getMe, cleaningController.createCleaningUser);
 router
     .route('/cleanings/:id')
     .get(cleaningController.getCleaningUser);
@@ -24,11 +26,13 @@ router
     .route('/cleanings/sub/:subCategories')
     .get(cleaningController.getCleaningSubCategories);
 
+// router.route('/cleaning/Me').get(cleaningController.getUserID, cleaningController.getCleaningUser);
+
 // Consultant
 router
     .route('/consultants')
     .get(consultantController.getAllConsultantUser)
-    .post(consultantController.getUserID, consultantController.createConsultantUser);
+    .post(userController.getMe, consultantController.createConsultantUser);
 router
     .route('/consultants/:id')
     .get(consultantController.getConsultantUser);
@@ -40,7 +44,7 @@ router
 router
     .route('/handymen')
     .get(handymanController.getAllHandymanUser)
-    .post(handymanController.getUserID, handymanController.createHandymanUser);
+    .post(userController.getMe, handymanController.createHandymanUser);
 router
     .route('/handymen/:id')
     .get(handymanController.getHandymanUser);
@@ -52,7 +56,7 @@ router
 router
     .route('/mountings')
     .get(mountingController.getAllMountingUser)
-    .post(mountingController.getUserID, mountingController.createMountingUser);
+    .post(userController.getMe, mountingController.createMountingUser);
 router
     .route('/mountings/:id')
     .get(mountingController.getMountingUser);
@@ -64,7 +68,7 @@ router
 router
     .route('/movingServices')
     .get(movingServicesController.getAllMovingServicesUser)
-    .post(movingServicesController.getUserID, movingServicesController.createMovingServicesUser);
+    .post(userController.getMe, movingServicesController.createMovingServicesUser);
 router
     .route('/movingServices/:id')
     .get(movingServicesController.getMovingServicesUser);
@@ -77,7 +81,7 @@ router
 router
     .route('/personalAssistants')
     .get(personalAssistantController.getAllPersonalAssistantUser)
-    .post(personalAssistantController.getUserID, personalAssistantController.createPersonalAssistantUser);
+    .post(userController.getMe, personalAssistantController.createPersonalAssistantUser);
 router
     .route('/personalAssistants/:id')
     .get(personalAssistantController.getPersonalAssistantUser);
@@ -90,7 +94,7 @@ router
 router
     .route('/visualAudios')
     .get(visualAudioController.getAllVisualAudioUser)
-    .post(visualAudioController.getUserID, visualAudioController.createVisualAudioUser);
+    .post(userController.getMe, visualAudioController.createVisualAudioUser);
 router
     .route('/visualAudios/:id')
     .get(visualAudioController.getVisualAudioUser);
@@ -103,7 +107,7 @@ router
 router
     .route('/yardworks')
     .get(yardworkController.getAllYardworkUser)
-    .post(yardworkController.getUserID, yardworkController.createYardworkUser);
+    .post(userController.getMe, yardworkController.createYardworkUser);
 router
     .route('/yardworks/:id')
     .get(yardworkController.getYardworkUser);
