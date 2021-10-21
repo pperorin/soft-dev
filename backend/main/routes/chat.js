@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 const chatController = require('../controllers/chatController');
+const viewController = require('../controllers/viewsController');
+
+router.use(authController.protect, authController.isLoggedIn);
 
 router
     .route('/')
-    .get(userController.getMe, chatController.getChat);
+    // .get(viewController.getChat, chatController.getChat);
+    .get(viewController.getChat);
 
 module.exports = router

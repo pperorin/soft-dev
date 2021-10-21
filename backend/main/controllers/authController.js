@@ -123,7 +123,7 @@ exports.isLoggedIn = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
             // 1) verify token
-            const decoded = await promisify(jwt.verify)(
+            const decoded = await (jwt.verify)(
                 req.cookies.jwt,
                 process.env.JWT_SECRET
             );

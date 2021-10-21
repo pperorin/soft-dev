@@ -3,10 +3,10 @@ const Schema = mongoose.Schema
 
 const visualAudioSchema = new Schema({
     id: {
-        type: Schema.ObjectId
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
     },
-    firstname: String,
-    lastname: String,
     reviewScore: {
         type: Number,
         default: '0'
@@ -25,7 +25,14 @@ const visualAudioSchema = new Schema({
     }
 })
 
+visualAudioSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'id',
+        select: ['firstname', 'lastname']
+    })
+
+    next();
+});
 
 const VisualAudioModel = mongoose.model('VisualAudio', visualAudioSchema)
-
 module.exports = VisualAudioModel

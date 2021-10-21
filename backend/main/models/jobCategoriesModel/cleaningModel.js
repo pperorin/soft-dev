@@ -3,10 +3,10 @@ const Schema = mongoose.Schema
 
 const cleaningSchema = new Schema({
     id: {
-        type: Schema.ObjectId
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
     },
-    firstname: String,
-    lastname: String,
     reviewScore: {
         type: Number,
         default: '0'
@@ -25,6 +25,14 @@ const cleaningSchema = new Schema({
     }
 })
 
-const CleaningModel = mongoose.model('Cleaning', cleaningSchema)
+cleaningSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'id',
+        select: ['firstname', 'lastname']
+    })
 
+    next();
+});
+
+const CleaningModel = mongoose.model('Cleaning', cleaningSchema)
 module.exports = CleaningModel

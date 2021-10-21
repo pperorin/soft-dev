@@ -47,7 +47,6 @@ exports.getindex = catchAsync(async (req, res, next) => {
     taskers.push(topCleaning[0], topConsultant[0], topHandyman[0], topMounting[0], topMovingServices[0], topPersonalAssistant[0], topVisualAudio[0], topYardwork[0]);
 
     const categories = ["Cleaning", "Consultant", "Handyman", "Mounting", "MovingServices", "PersonalAssistant", "VisualAudio", "Yardwork"];
-
     res.status(200).render('overview', {
         title: 'Index',
         categories,
@@ -77,3 +76,10 @@ exports.getAccount = (req, res) => {
         title: 'Account'
     });
 };
+
+exports.getChat = (req, res) => {
+    res.status(200).render('chat', {
+        title: 'Chat'
+    });
+};
+

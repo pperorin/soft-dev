@@ -3,10 +3,10 @@ const Schema = mongoose.Schema
 
 const handymanSchema = new Schema({
     id: {
-        type: Schema.ObjectId
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
     },
-    firstname: String,
-    lastname: String,
     reviewScore: {
         type: Number,
         default: '0'
@@ -25,6 +25,14 @@ const handymanSchema = new Schema({
     }
 })
 
-const HandymanModel = mongoose.model('Handyman', handymanSchema)
+handymanSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'id',
+        select: ['firstname', 'lastname']
+    })
 
+    next();
+});
+
+const HandymanModel = mongoose.model('Handyman', handymanSchema)
 module.exports = HandymanModel

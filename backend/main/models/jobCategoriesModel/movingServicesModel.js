@@ -3,10 +3,10 @@ const Schema = mongoose.Schema
 
 const movingServicesSchema = new Schema({
     id: {
-        type: Schema.ObjectId
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
     },
-    firstname: String,
-    lastname: String,
     reviewScore: {
         type: Number,
         default: '0'
@@ -25,7 +25,14 @@ const movingServicesSchema = new Schema({
     }
 })
 
+movingServicesSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'id',
+        select: ['firstname', 'lastname']
+    })
+
+    next();
+});
 
 const MovingServicesModel = mongoose.model('MovingServices', movingServicesSchema)
-
 module.exports = MovingServicesModel

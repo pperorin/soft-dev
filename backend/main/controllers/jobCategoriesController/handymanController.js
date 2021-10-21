@@ -74,16 +74,12 @@ exports.createHandymanUser = catchAsync(async (req, res, next) => {
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 
-    const user = await User.findById(req.params.id);
-    req.body.firstname = user.firstname;
-    req.body.lastname = user.lastname;
-
     const newHandymanUser = await Handyman.create(req.body);
 
     res.status(201).json({
         status: 'success',
         data: {
-            User: newHandymanUser
+            user: newHandymanUser
         }
     });
 });
