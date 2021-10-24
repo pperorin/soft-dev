@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
  */
 
 server.listen(port, () => {
-    console.log('Server is on : http://127.0.0.1:' + port + '/user/login');
+    console.log('Server is on : http://127.0.0.1:' + port);
 });
 
 server.on('error', onError);
