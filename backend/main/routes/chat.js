@@ -9,7 +9,11 @@ router.use(authController.protect, authController.isLoggedIn);
 
 router
     .route('/')
-    // .get(viewController.getChat, chatController.getChat);
-    .get(viewController.getChat);
+    .get(chatController.getAllChat)
+    .post(chatController.createChat)
+    .patch(chatController.sendMessage);
+
+// .get(viewController.getChat, chatController.getAllChat);
+// .get(viewController.getChat);
 
 module.exports = router

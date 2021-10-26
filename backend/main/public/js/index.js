@@ -1,22 +1,19 @@
 /* eslint-disable */
 import '@babel/polyfill';
-import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
+import { } from './chat';
 
 // DOM ELEMENTS
-const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
+const chatForm = document.querySelector('.form-chat');
+
+
 
 // DELEGATION
-if (mapBox) {
-  const locations = JSON.parse(mapBox.dataset.locations);
-  displayMap(locations);
-}
-
 if (loginForm)
   loginForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -58,3 +55,22 @@ if (userPasswordForm)
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
   });
+
+if (chatForm) {
+  var socket = io();
+  var messages = document.getElementById('messages').value;
+  var input = document.getElementById('input');
+  chatForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (input.value) {
+      socket.emit('chat message', input.value);
+      input.value = '';
+    }
+  });
+  await socket.on('chat message', function (msg) {
+    var item = document.createElement('li');
+    item.textContent = msg;
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+}

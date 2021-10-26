@@ -22,10 +22,44 @@ exports.getChat = catchAsync(async (req, res, next) => {
 exports.getAllChat = catchAsync(async (req, res, next) => {
     const allchat = await Chat.find();
 
-    res.status(200).json({
+    res.status(200).render('chat', {
+        title: 'Chat',
+        status: "success",
+        allchat
+    });
+});
+
+exports.createChat = catchAsync(async (req, res, next) => {
+    const allchat = await Chat.findOne({ user: req.user.id, tasker: req.body.tasker });
+    if (allchat) {
+        return next(new AppError('duplicated chat room', 404))
+    }
+
+    const chat = await Chat.create(req.body);
+
+    res.status(201).json({
         status: "success",
         data: {
-            allchat
+            chat
+        }
+    });
+});
+
+exports.sendMessage = catchAsync(async (req, res, next) => {
+    const newMessage = await Chat.findOneAndUpdate(
+        { user: req.user.id, tasker: req.body.tasker },
+        {
+            $push: {
+                message: {
+                    user: req.user.id,
+                    message: req.body.message
+                }
+            }
+        })
+    res.status(201).json({
+        status: "success",
+        data: {
+            newMessage
         }
     });
 });

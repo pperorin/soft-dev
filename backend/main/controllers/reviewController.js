@@ -12,35 +12,48 @@ const PersonalAssistant = require('../models/jobCategoriesModel/personalAssistan
 const VisualAudio = require('../models/jobCategoriesModel/visualAudioModel');
 const Yardwork = require('../models/jobCategoriesModel/yardworkModel');
 
-exports.createReview = catchAsync(async (req, res, next) => {
-    const newReview = await Review.create(req.body);
+exports.setTourUserIds = (req, res, next) => {
+    // Allow nested routes
+    if (!req.body.tour) req.body.tour = req.params.tourId;
+    if (!req.body.user) req.body.user = req.user.id;
+    next();
+};
 
-    res.status(200).json({
-        status: 'success',
-        data: {
-            review: newReview
-        }
-    });
-});
+// exports.getAllReviews = factory.getAll(Review);
+// exports.getReview = factory.getOne(Review);
+// exports.createReview = factory.createOne(Review);
+// exports.updateReview = factory.updateOne(Review);
+// exports.deleteReview = factory.deleteOne(Review);
 
-exports.getAllReview = catchAsync(async (req, res, next) => {
-    const reviews = await Review.find()
+// exports.createReview = catchAsync(async (req, res, next) => {
+//     const newReview = await Review.create(req.body);
 
-    res.status(200).json({
-        status: 'success',
-        data: {
-            reviews
-        }
-    });
-});
+//     res.status(200).json({
+//         status: 'success',
+//         data: {
+//             review: newReview
+//         }
+//     });
+// });
 
-exports.reportTasker = catchAsync(async (req, res, next) => {
+// exports.getAllReview = catchAsync(async (req, res, next) => {
+//     const reviews = await Review.find()
+
+//     res.status(200).json({
+//         status: 'success',
+//         data: {
+//             reviews
+//         }
+//     });
+// });
+
+// exports.reportTasker = catchAsync(async (req, res, next) => {
 
 
-    res.status(200).json({
-        status: 'success',
-        data: {
-            user: updatedUser
-        }
-    });
-});
+//     res.status(200).json({
+//         status: 'success',
+//         data: {
+//             user: updatedUser
+//         }
+//     });
+// });

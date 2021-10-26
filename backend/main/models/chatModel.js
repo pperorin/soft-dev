@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const User = require('./userModel');
 
 const chatSchema = new Schema({
     message: {
-        type: [String], //-ชื่อ -ข้อความ
+        type: [{
+            sender: mongoose.Schema.ObjectId,
+            message: String
+        }], //-ชื่อ -ข้อความ
         default: []
     },
     user: {
