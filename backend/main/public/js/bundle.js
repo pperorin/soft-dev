@@ -9008,24 +9008,73 @@ var updateSettings = /*#__PURE__*/function () {
 
 exports.updateSettings = updateSettings;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"chat.js":[function(require,module,exports) {
-// import {getAllChat} from '../controllers/chatController'
-var socket = io();
-var form = document.getElementById('form form-');
-var input = document.getElementById('input'); // form.addEventListener('submit', function (e) {
-//     e.preventDefault();
-//     if (input.value) {
-//         socket.emit('chat message', input.value);
-//         input.value = '';
-//     }
-// });
+"use strict";
 
-socket.on('chat message', function (msg) {
-  var item = document.createElement('li');
-  item.textContent = msg;
-  messages.appendChild(item);
-  window.scrollTo(0, document.body.scrollHeight);
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-},{}],"index.js":[function(require,module,exports) {
+exports.sendMessage = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("./alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var sendMessage = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(input) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: 'http://127.0.0.1:3000/chat',
+              data: {
+                input: input
+              }
+            });
+
+          case 3:
+            res = _context.sent;
+
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', 'Logged in successfully!');
+              window.setTimeout(function () {
+                location.assign('/');
+              }, 1500);
+            }
+
+            _context.next = 10;
+            break;
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context["catch"](0);
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+
+          case 10:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 7]]);
+  }));
+
+  return function sendMessage(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.sendMessage = sendMessage;
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("core-js/modules/es6.array.copy-within.js");
@@ -9296,7 +9345,7 @@ var _login = require("./login");
 
 var _updateSettings = require("./updateSettings");
 
-require("./chat");
+var _chat = require("./chat");
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -9368,32 +9417,16 @@ if (chatForm) {
   var socket = io();
   var messages = document.getElementById('messages').value;
   var input = document.getElementById('input');
-  chatForm.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              e.preventDefault();
+  chatForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    (0, _chat.sendMessage)();
 
-              if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-              }
-
-            case 2:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    }));
-
-    return function (_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }());
-  await socket.on('chat message', function (msg) {
+    if (input.value) {
+      socket.emit('chat message', input.value);
+      input.value = '';
+    }
+  });
+  socket.on('chat message', function (msg) {
     var item = document.createElement('li');
     item.textContent = msg;
     messages.appendChild(item);
@@ -9428,7 +9461,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64149" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65440" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

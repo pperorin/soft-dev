@@ -12,11 +12,6 @@ exports.aliasTopTasker = (req, res, next) => {
     next();
 };
 
-exports.getUserID = (req, res, next) => {
-    req.params.id = req.user.id;
-    next();
-};
-
 exports.getAllMountingUser = catchAsync(async (req, res, next) => {
     subCategories = ['TV Mounting', 'Hanging Curtains & Installing Blinds', 'Mounting solar', 'Door & Window Installation', 'Light Installation'];
     const features = new APIFeatures(Mounting.find(), req.query)
@@ -70,8 +65,8 @@ exports.getMountingSubCategories = catchAsync(async (req, res, next) => {
 });
 
 exports.createMountingUser = catchAsync(async (req, res, next) => {
-    req.body.id = req.params.id;
-    const duplicate = await Mounting.find({ id: req.body.id })
+    req.body.user = req.user.id;
+    const duplicate = await Mounting.find({ id: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

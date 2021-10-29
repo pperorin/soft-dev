@@ -2,32 +2,47 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const personalAssistantSchema = new Schema({
-    id: {
+    user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: true
     },
-    reviewScore: {
+    ratingsAverage: {
         type: Number,
-        default: '0'
+        default: 4.5,
+        min: [1, 'Rating must be above 1.0'],
+        max: [5, 'Rating must be below 5.0'],
+        set: val => Math.round(val * 10) / 10 // 4.666666, 46.6666, 47, 4.7
+    },
+    ratingsQuantity: {
+        type: Number,
+        default: 0
     },
     description: String,
     history: [String],
-    reviewByCustomer: [String],
-    province: {
+    price: {
+        type: Number,
+        required: [true, 'A tour must have a price']
+    },
+    locations: {
         type: String,
-        required: [true, 'Please provide your province']
+        required: [true, 'Please provide your locations']
     },
     subCategories: {
         type: [String],
-        require: true
+        require: true,
         //['Friend trave', 'Furniture Movers', 'Rearrange Furniture']
     }
-})
+},
+    {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    }
+)
 
 personalAssistantSchema.pre(/^find/, function (next) {
     this.populate({
-        path: 'id',
+        path: 'user',
         select: ['firstname', 'lastname']
     })
 

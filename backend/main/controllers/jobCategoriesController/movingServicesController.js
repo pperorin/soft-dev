@@ -11,11 +11,6 @@ exports.aliasTopTasker = (req, res, next) => {
     next();
 };
 
-exports.getUserID = (req, res, next) => {
-    req.params.id = req.user.id;
-    next();
-};
-
 exports.getAllMovingServicesUser = catchAsync(async (req, res, next) => {
     subCategories = ['Help Moving', 'Furniture Movers', 'Rearrange Furniture'];
     const features = new APIFeatures(MovingServices.find(), req.query)
@@ -69,8 +64,8 @@ exports.getMovingServicesSubCategories = catchAsync(async (req, res, next) => {
 });
 
 exports.createMovingServicesUser = catchAsync(async (req, res, next) => {
-    req.body.id = req.params.id;
-    const duplicate = await MovingServices.find({ id: req.body.id })
+    req.body.user = req.user.id;
+    const duplicate = await MovingServices.find({ id: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

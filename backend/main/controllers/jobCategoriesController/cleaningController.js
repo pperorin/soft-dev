@@ -11,11 +11,6 @@ exports.aliasTopTasker = (req, res, next) => {
     next();
 };
 
-exports.getUserID = (req, res, next) => {
-    req.params.id = req.user.id;
-    next();
-};
-
 exports.getAllCleaningUser = catchAsync(async (req, res, next) => {
     subCategories = ['House Cleaning Services', 'Disinfecting Services', 'Laundry Help', 'Air Conditioning Cleaning Service'];
     const features = new APIFeatures(Cleaning.find(), req.query)
@@ -69,8 +64,8 @@ exports.getCleaningSubCategories = catchAsync(async (req, res, next) => {
 });
 
 exports.createCleaningUser = catchAsync(async (req, res, next) => {
-    req.body.id = req.params.id;
-    const duplicate = await Cleaning.find({ id: req.body.id })
+    req.body.user = req.user.id;
+    const duplicate = await Cleaning.find({ id: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

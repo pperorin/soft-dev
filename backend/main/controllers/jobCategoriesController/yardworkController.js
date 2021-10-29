@@ -11,11 +11,6 @@ exports.aliasTopTasker = (req, res, next) => {
     next();
 };
 
-exports.getUserID = (req, res, next) => {
-    req.params.id = req.user.id;
-    next();
-};
-
 exports.getAllYardworkUser = catchAsync(async (req, res, next) => {
     subCategories = ['Tree Trimming Service', 'Hedge Trimming Service', 'Lawn Mowing', 'Gutter Cleaning', 'Patio Cleaning', 'Pool Cleaning Services'];
     const features = new APIFeatures(Yardwork.find(), req.query)
@@ -69,8 +64,8 @@ exports.getYardworkSubCategories = catchAsync(async (req, res, next) => {
 });
 
 exports.createYardworkUser = catchAsync(async (req, res, next) => {
-    req.body.id = req.params.id;
-    const duplicate = await Yardwork.find({ id: req.body.id })
+    req.body.user = req.user.id;
+    const duplicate = await Yardwork.find({ id: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

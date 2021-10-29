@@ -2,7 +2,7 @@
 import '@babel/polyfill';
 import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
-import { } from './chat';
+import { sendMessage } from './chat';
 
 // DOM ELEMENTS
 const loginForm = document.querySelector('.form--login');
@@ -10,8 +10,6 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const chatForm = document.querySelector('.form-chat');
-
-
 
 // DELEGATION
 if (loginForm)
@@ -60,14 +58,15 @@ if (chatForm) {
   var socket = io();
   var messages = document.getElementById('messages').value;
   var input = document.getElementById('input');
-  chatForm.addEventListener('submit', async e => {
+  chatForm.addEventListener('submit', e => {
     e.preventDefault();
+    sendMessage()
     if (input.value) {
       socket.emit('chat message', input.value);
       input.value = '';
     }
   });
-  await socket.on('chat message', function (msg) {
+  socket.on('chat message', function (msg) {
     var item = document.createElement('li');
     item.textContent = msg;
     messages.appendChild(item);

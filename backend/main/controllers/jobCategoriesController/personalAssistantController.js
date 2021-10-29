@@ -11,11 +11,6 @@ exports.aliasTopTasker = (req, res, next) => {
     next();
 };
 
-exports.getUserID = (req, res, next) => {
-    req.params.id = req.user.id;
-    next();
-};
-
 exports.getAllPersonalAssistantUser = catchAsync(async (req, res, next) => {
     const features = new APIFeatures(PersonalAssistant.find(), req.query)
         .filter()
@@ -68,8 +63,8 @@ exports.getPersonalAssistantSubCategories = catchAsync(async (req, res, next) =>
 });
 
 exports.createPersonalAssistantUser = catchAsync(async (req, res, next) => {
-    req.body.id = req.params.id;
-    const duplicate = await PersonalAssistant.find({ id: req.body.id })
+    req.body.user = req.user.id;
+    const duplicate = await PersonalAssistant.find({ id: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

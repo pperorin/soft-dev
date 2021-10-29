@@ -11,11 +11,6 @@ exports.aliasTopTasker = (req, res, next) => {
     next();
 };
 
-exports.getUserID = (req, res, next) => {
-    req.params.id = req.user.id;
-    next();
-};
-
 exports.getAllVisualAudioUser = catchAsync(async (req, res, next) => {
     subCategories = ['Photography', 'Videography', 'Voice-over', 'Singer-band', 'Animations', 'Podcast', 'Subtitle', 'Sound Engineering', 'Makeup'];
     const features = new APIFeatures(VisualAudio.find(), req.query)
@@ -69,8 +64,8 @@ exports.getVisualAudioSubCategories = catchAsync(async (req, res, next) => {
 });
 
 exports.createVisualAudioUser = catchAsync(async (req, res, next) => {
-    req.body.id = req.params.id;
-    const duplicate = await VisualAudio.find({ id: req.body.id })
+    req.body.user = req.user.id;
+    const duplicate = await VisualAudio.find({ id: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 
