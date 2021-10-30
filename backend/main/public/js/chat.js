@@ -1,24 +1,21 @@
-/* eslint-disable */
-import axios from 'axios';
-import { showAlert } from './alerts';
+var socket = io();
 
-export const sendMessage = async (input) => {
-    try {
-        const res = await axios({
-            method: 'PATCH',
-            url: 'http://127.0.0.1:3000/chat',
-            data: {
-                input
-            }
-        });
-
-        if (res.data.status === 'success') {
-            showAlert('success', 'Logged in successfully!');
-            window.setTimeout(() => {
-                location.assign('/');
-            }, 1500);
-        }
-    } catch (err) {
-        showAlert('error', err.response.data.message);
+var messages = document.getElementById('messages');
+var form = document.getElementById('form');
+var input = document.getElementById('input');
+var name = prompt("Please enter your name", "Harry Potter")
+socket.emit('set username', name);
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (input.value) {
+        socket.emit('chat message', input.value);
+        input.value = '';
     }
-};
+});
+
+socket.on('chat message', function (msg) {
+    var item = document.createElement('li');
+    item.textContent = msg;
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+});

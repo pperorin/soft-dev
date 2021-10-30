@@ -9,7 +9,6 @@ const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
-const chatForm = document.querySelector('.form-chat');
 
 // DELEGATION
 if (loginForm)
@@ -53,23 +52,3 @@ if (userPasswordForm)
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
   });
-
-if (chatForm) {
-  var socket = io();
-  var messages = document.getElementById('messages').value;
-  var input = document.getElementById('input');
-  chatForm.addEventListener('submit', e => {
-    e.preventDefault();
-    sendMessage()
-    if (input.value) {
-      socket.emit('chat message', input.value);
-      input.value = '';
-    }
-  });
-  socket.on('chat message', function (msg) {
-    var item = document.createElement('li');
-    item.textContent = msg;
-    messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
-  });
-}
