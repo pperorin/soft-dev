@@ -3,16 +3,9 @@ const router = express.Router({ mergeParams: true });
 const authController = require('../controllers/authController');
 const reviewController = require('../controllers/reviewController');
 
-router.use(authController.protect);
 
-// router
-//     .route('/')
-//     .get(reviewController.getAllReviews)
-//     .post(
-//         authController.restrictTo('user'),
-//         reviewController.setTourUserIds,
-//         reviewController.createReview
-//     );
+router.use(authController.protect, authController.isLoggedIn);
+
 
 // router
 //     .route('/:id')
@@ -27,10 +20,9 @@ router.use(authController.protect);
 //     );
 
 
-// router
-//     .route('/cleanings/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/cleanings/:id')
+    .patch(reviewController.createReviewCleaning);
 
 // router
 //     .route('/consultants/:id')

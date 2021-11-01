@@ -1,8 +1,7 @@
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const Review = require('../models/reviewModel')
-const Report = require('../models/reportModel')
+
 const Cleaning = require('../models/jobCategoriesModel/cleaningModel');
 const Consultant = require('../models/jobCategoriesModel/consultantModel');
 const Handyman = require('../models/jobCategoriesModel/handymanModel');
@@ -12,48 +11,20 @@ const PersonalAssistant = require('../models/jobCategoriesModel/personalAssistan
 const VisualAudio = require('../models/jobCategoriesModel/visualAudioModel');
 const Yardwork = require('../models/jobCategoriesModel/yardworkModel');
 
-exports.setTourUserIds = (req, res, next) => {
-    // Allow nested routes
-    if (!req.body.tour) req.body.tour = req.params.tourId;
-    if (!req.body.user) req.body.user = req.user.id;
-    next();
-};
+exports.createReviewCleaning = catchAsync(async (req, res, next) => {
+    const tasker = await Cleaning.findOne({ user: req.params.id });
+    if (tasker.user._id == req.user.id)
+        return next(new AppError('user and tasker are the same person', 400));
+    const newScore = ((tasker.ratingsQuantity * tasker.ratingsAverage) + req.body.reviewRating) / (tasker.ratingsQuantity + 1);
+    const newQuantity = tasker.ratingsQuantity + 1;
+    const bodyReview = { userReview: req.user.id, review: req.body.review };
+    const review = await Cleaning.findOneAndUpdate(
+        { user: req.params.id }, { ratingsAverage: newScore, ratingsQuantity: newQuantity, $push: { review: bodyReview }, }, { new: true })
 
-// exports.getAllReviews = factory.getAll(Review);
-// exports.getReview = factory.getOne(Review);
-// exports.createReview = factory.createOne(Review);
-// exports.updateReview = factory.updateOne(Review);
-// exports.deleteReview = factory.deleteOne(Review);
-
-// exports.createReview = catchAsync(async (req, res, next) => {
-//     const newReview = await Review.create(req.body);
-
-//     res.status(200).json({
-//         status: 'success',
-//         data: {
-//             review: newReview
-//         }
-//     });
-// });
-
-// exports.getAllReview = catchAsync(async (req, res, next) => {
-//     const reviews = await Review.find()
-
-//     res.status(200).json({
-//         status: 'success',
-//         data: {
-//             reviews
-//         }
-//     });
-// });
-
-// exports.reportTasker = catchAsync(async (req, res, next) => {
-
-
-//     res.status(200).json({
-//         status: 'success',
-//         data: {
-//             user: updatedUser
-//         }
-//     });
-// });
+    res.status(200).json({
+        status: 'success',
+        data: {
+            review
+        }
+    });
+});
