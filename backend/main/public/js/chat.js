@@ -3,8 +3,9 @@ var socket = io();
 var messages = document.getElementById('messages');
 var form = document.getElementById('form');
 var input = document.getElementById('input');
-var name = prompt("Please enter your name", "Harry Potter")
-socket.emit('set username', name);
+
+// var name = prompt("Please enter your name", "Harry Potter")
+// socket.emit('set-username', name);
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (input.value) {

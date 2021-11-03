@@ -24,8 +24,10 @@ console.log(process.env.NODE_ENV);
  */
 
 var server = http.createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server);
+// const { Server } = require('socket.io');
+// const io = new Server(server);
+var io = require('socket.io')(server);
+global.io = io;
 require('.././utils/socket')(io);
 /**
  * Listen on provided port, on all network interfaces.
