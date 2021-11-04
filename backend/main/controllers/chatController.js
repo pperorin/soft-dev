@@ -12,7 +12,7 @@ exports.getChat = catchAsync(async (req, res, next) => {
     global.username = await req.user.firstname; // Socket.io
     global.id = await req.params.id;
     res.status(200).render('chat', {
-    // res.status(200).json({
+        // res.status(200).json({
         title: 'Chat',
         status: 'success',
         chat,
@@ -53,7 +53,7 @@ exports.sendMessage = catchAsync(async (req, res, next) => {
         {
             $push: {
                 message: {
-                    sender: req.user.id,
+                    sender: req.user.firstname,
                     message: req.body.message,
                 },
             },
