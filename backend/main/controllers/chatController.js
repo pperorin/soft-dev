@@ -53,7 +53,7 @@ exports.sendMessage = catchAsync(async (req, res, next) => {
         {
             $push: {
                 message: {
-                    sender: req.user.id,
+                    sender: req.user.firstname,
                     message: req.body.message,
                 },
             },

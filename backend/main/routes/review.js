@@ -24,39 +24,32 @@ router
     .route('/cleanings/:id')
     .patch(reviewController.createReviewCleaning);
 
-// router
-//     .route('/consultants/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/consultants/:id')
+    .patch(reviewController.createReviewConsultant);
 
-// router
-//     .route('/handymen/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/handymen/:id')
+    .patch(reviewController.createReviewHandyman);
 
-// router
-//     .route('/mountings/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/mountings/:id')
+    .patch(reviewController.createReviewMounting);
 
-// router
-//     .route('/movingServices/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/movingServices/:id')
+    .patch(reviewController.createReviewMovingServices);
 
-// router
-//     .route('/personalAssistants/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/personalAssistants/:id')
+    .patch(reviewController.createReviewPersonalAssistant);
 
-// router
-//     .route('/visualAudios/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/visualAudios/:id')
+    .patch(reviewController.createReviewVisualAudio);
 
-// router
-//     .route('/yardworks/:id')
-//     .get(reviewController.getAllReview)
-//     .post(authController.isLoggedIn, reviewController.createReview);
+router
+    .route('/yardworks/:id')
+    .patch(reviewController.createReviewYardwork);
 
 module.exports = router
