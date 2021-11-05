@@ -1,62 +1,70 @@
-// const Server = require('socket.io');
-// const io = new Server();
-
-// var Socket = {
-//     emit: function (event, data) {
-//         console.log(event, data);
-//         io.sockets.emit(event, data);
-//     },
-// };
-
-// io.on('connection', function (socket) {
-//     console.log('A user connected');
-// });
-
-// exports.Socket = Socket;
-// exports.io = io;
+const formatMessage = require('./chat_message');
+const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./chat_user');
 
 const Chat = require('../models/chatModel');
 module.exports = function (io) {
     io.on('connection', (socket) => {
-        socket.name = global.username;
-        console.log('User connected : '+socket.name);
-        socket.on('disconnect', () => {
-            console.log('user disconnected');
-            io.emit('chat message', '🔴  ' + socket.name + ' left the chat...');
+        socket.on('joinRoom', ({ username, room }) => {
+            username = global.username
+            const user = userJoin(socket.id, username, room);
+
+            socket.join(user.room);
+
+            // Welcome current user
+
+            // Broadcast when a user connects
+            socket.broadcast
+                .to(user.room)
+                // .emit('message', formatMessage('System', `${user.username} has joined the chat`));
+
+            // Send users and room info
+            io.to(user.room).emit('roomUsers', {
+                room: user.room,
+                users: getRoomUsers(user.room),
+            });
         });
-        socket.emit('set-username', (user) => {
-            socket.name = user;
-        })
-        socket.on('set-username', (user) => {
-            socket.name = user;
-            console.log('Set username: ' + '' + socket.name);
-            io.emit('chat message', '🟢  ' + socket.name + ' join the chat...');
-        });
-        socket.on('chat message', (msg) => {
-            console.log('message: ' + msg);
-        });
-        socket.on('chat message', async (msg) => {
-            const allchat = await Chat.findById(global.id);
+        // Listen for chatMessage
+        socket.on('chatMessage', async (msg) => {
+            const user = getCurrentUser(socket.id);
+            const message = formatMessage(user.username, msg)
+            const allchat = await Chat.findById('61780dd0b5ec5cd90efa8c3e');
             if (!allchat) {
                 await Chat.create({
-                    message: msg,
-                    user: global.user,
+                    user: message.username,
                     tasker: global.tasker,
                 });
                 console.log('Socket.io: Created chat room');
             } else {
-                await Chat.findOneAndUpdate({id :global.id},
+                await Chat.findOneAndUpdate(
+                    { id: '61780dd0b5ec5cd90efa8c3e' },
                     {
                         $push: {
                             message: {
-                                sender: socket.name,
-                                message: msg,
+                                sender: message.username,
+                                message: message.text,
+                                time: message.time,
                             },
                         },
                     }
                 );
                 console.log('Socket.io: Saved to chat room');
-                io.emit('chat message', socket.name + ' : ' + msg);
+            }
+
+            io.to(user.room).emit('message', formatMessage(user.username, msg));
+        });
+        // Runs when client disconnects
+        socket.on('disconnect', () => {
+            const user = userLeave(socket.id);
+
+            if (user) {
+                // Broadcast when a user disconnects
+                // io.to(user.room).emit('message', formatMessage('System', `${user.username} has left the chat`));
+
+                // Send users and room info
+                io.to(user.room).emit('roomUsers', {
+                    room: user.room,
+                    users: getRoomUsers(user.room),
+                });
             }
         });
     });

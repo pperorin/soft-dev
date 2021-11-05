@@ -9,6 +9,7 @@ const chatSchema = new Schema(
                 {
                     sender: String,
                     message: String,
+                    time:String
                 },
             ], //-ชื่อ -ข้อความ
             default: [],

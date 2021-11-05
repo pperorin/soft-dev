@@ -8,11 +8,11 @@ const User = require('../models/userModel');
 
 exports.getChat = catchAsync(async (req, res, next) => {
     const chat = await Chat.findById(req.params.id);
-
+    // console.log(chat.message);
     global.username = await req.user.firstname; // Socket.io
     global.id = await req.params.id;
     res.status(200).render('chat', {
-    // res.status(200).json({
+        // res.status(200).json({
         title: 'Chat',
         status: 'success',
         chat,
@@ -20,12 +20,12 @@ exports.getChat = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllChat = catchAsync(async (req, res, next) => {
-    // const allchat = await Chat.find();
+    const allchat = await Chat.findById("61780dd0b5ec5cd90efa8c3e");
     global.username = await req.user.firstname;
     res.status(200).render('chat', {
         title: 'Chat',
         status: 'success',
-        // allchat,
+        allchat,
     });
 });
 
