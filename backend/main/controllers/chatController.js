@@ -7,15 +7,15 @@ const Chat = require('../models/chatModel');
 const User = require('../models/userModel');
 
 exports.getChat = catchAsync(async (req, res, next) => {
-    const chat = await Chat.findById(req.params.id);
+    const allchat = await Chat.findById(req.params.id);
     // console.log(chat.message);
-    global.username = await req.user.firstname; // Socket.io
-    global.id = await req.params.id;
+    global.username = req.user.firstname; // Socket.io
+    global.id = req.params.id;
     res.status(200).render('chat', {
         // res.status(200).json({
         title: 'Chat',
         status: 'success',
-        chat,
+        allchat,
     });
 });
 
@@ -30,21 +30,24 @@ exports.getAllChat = catchAsync(async (req, res, next) => {
 });
 
 exports.createChat = catchAsync(async (req, res, next) => {
-    global.user = req.user.id;
-    global.tasker = req.body.tasker;
     const allchat = await Chat.findOne({ user: req.user.id, tasker: req.body.tasker });
-    if (allchat) {
-        return next(new AppError('duplicated chat room', 404));
+    try {
+        if (allchat) {
+            res.status(201).json({
+                status: 'success',
+                url: `http://127.0.0.1:3000/chat/${allchat.id}`,
+            });
+        }
     }
-
-    const chat = await Chat.create(req.body);
-
-    res.status(201).json({
-        status: 'success',
-        data: {
-            chat,
-        },
-    });
+    catch (err) {
+        const chat = await Chat.create(req.body);
+        res.status(201).json({
+            status: 'success',
+            data: {
+                chat,
+            },
+        });
+    }
 });
 
 exports.sendMessage = catchAsync(async (req, res, next) => {

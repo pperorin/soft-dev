@@ -22,11 +22,13 @@ const contractSchema = new Schema({
     },
     price: Number,
     ActiveAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
     Active: {
-        type: Boolean,
-        default: true
+        type: String,
+        default: "active",
+        enum: ["cancelled", "active", "finished"]
     }
 })
 

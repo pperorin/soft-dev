@@ -7,8 +7,6 @@ const AppError = require('../utils/appError');
 const Contract = require('../models/contractModel');
 
 exports.createContract = catchAsync(async (req, res, next) => {
-
-
     const contract = await Contract.create(req.body);
 
     res.status(201).json({

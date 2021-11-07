@@ -5,9 +5,9 @@ const User = require('../../models/userModel');
 const Cleaning = require('../../models/jobCategoriesModel/cleaningModel');
 
 exports.aliasTopTasker = (req, res, next) => {
-    req.query.limit = '7';
-    req.query.sort = '-reviewScore';
-    req.query.fields = 'id,firstname,lastname,reviewScore,description,province,subCategories';
+    req.query.limit = '10';
+    req.query.sort = '-ratingsAverage';
+    req.query.fields = 'id,firstname,lastname,ratingsAverage,description,locations,subCategories';
     next();
 };
 
@@ -41,9 +41,7 @@ exports.getCleaningUser = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        data: {
-            user
-        }
+        user
     });
 });
 
