@@ -4,14 +4,13 @@ const router = express.Router();
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
 const viewsController = require('./../controllers/viewsController');
+const contractController = require('./../controllers/contractController');
 
 router
     .route('/signup')
-    .get(viewsController.getSignUpForm)
     .post(authController.signup);
 router
     .route('/login')
-    .get(viewsController.getLoginForm)
     .post(authController.login);
 
 //router.route('/users').get(userController.getAllUsers);
@@ -24,7 +23,11 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.use(authController.protect);
 
 router.patch('/updateMyPassword', authController.updatePassword);
-router.get('/me', viewsController.getAccount, userController.getMe, userController.getUser);
+router.get('/me', userController.getMe, userController.getUser);
+router
+    .route('/mycontract')
+    .get(contractController.getMyContract)
+    .post(contractController.createContract);
 
 router.patch('/updateMe',
     userController.uploadUserPhoto,

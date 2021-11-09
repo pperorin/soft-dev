@@ -6,20 +6,6 @@ const reviewController = require('../controllers/reviewController');
 
 router.use(authController.protect, authController.isLoggedIn);
 
-
-// router
-//     .route('/:id')
-//     .get(reviewController.getReview)
-//     .patch(
-//         authController.restrictTo('user', 'admin'),
-//         reviewController.updateReview
-//     )
-//     .delete(
-//         authController.restrictTo('user', 'admin'),
-//         reviewController.deleteReview
-//     );
-
-
 router
     .route('/cleanings/:id')
     .patch(reviewController.createReviewCleaning);

@@ -17,7 +17,7 @@ const contractSchema = new Schema({
     location: {
         type: String
     },
-    Description: {
+    description: {
         type: String
     },
     price: Number,
@@ -33,5 +33,4 @@ const contractSchema = new Schema({
 })
 
 const ContractModel = mongoose.model('Contract', contractSchema)
-
 module.exports = ContractModel
