@@ -4,11 +4,13 @@ const Schema = mongoose.Schema
 const contractSchema = new Schema({
     tasker: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Tasker',
+        ref: 'User',
+        required: [true, 'The contract must have a tasker']
     },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
+        required: [true, 'The contract must have a user']
     },
     date: {
         type: Date,
@@ -31,6 +33,17 @@ const contractSchema = new Schema({
         enum: ["cancel", "active", "finish"]
     }
 })
+
+contractSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'user',
+        select: 'firstname',
+    }).populate({
+        path: 'tasker',
+        select: 'firstname',
+    });
+    next();
+});
 
 const ContractModel = mongoose.model('Contract', contractSchema)
 module.exports = ContractModel

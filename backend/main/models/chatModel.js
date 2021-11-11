@@ -9,7 +9,7 @@ const chatSchema = new Schema(
                 {
                     sender: String,
                     message: String,
-                    time:String
+                    time: String
                 },
             ], //-ชื่อ -ข้อความ
             default: [],
@@ -17,12 +17,12 @@ const chatSchema = new Schema(
         user: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
-            required: [true, 'Chat must belong to a sender.'],
+            required: [true, 'Chat must belong to a user.'],
         },
         tasker: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
-            required: [true, 'Chat must belong to a receiver'],
+            required: [true, 'Chat must belong to a tasker'],
         },
     },
     {
@@ -39,11 +39,6 @@ chatSchema.pre(/^find/, function (next) {
         path: 'tasker',
         select: 'firstname',
     });
-
-    // this.populate({
-    //   path: 'user',
-    //   select: 'name photo'
-    // });
     next();
 });
 
