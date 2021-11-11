@@ -25,10 +25,10 @@ const contractSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    Active: {
+    status: {
         type: String,
         default: "active",
-        enum: ["cancelled", "active", "finished"]
+        enum: ["cancel", "active", "finish"]
     }
 })
 

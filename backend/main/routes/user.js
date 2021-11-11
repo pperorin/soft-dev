@@ -26,8 +26,8 @@ router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router
     .route('/mycontract')
-    .get(contractController.getMyContract)
-    .post(contractController.createContract);
+    .get(contractController.getMyAllContracts)
+//     .post(contractController.createContract);
 
 router.patch('/updateMe',
     userController.uploadUserPhoto,

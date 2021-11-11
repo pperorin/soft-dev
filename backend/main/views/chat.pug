@@ -46,13 +46,10 @@ head
   main.chat-main
     .chat-sidebar
       h3
-        i.fas.fa-comments
-        |  Room Name:
-      h2#room-name
-      h3
         i.fas.fa-users
         |  Users
-      ul#users
+      ul#users= `${allchat.user.firstname}`
+      ul#users= `${allchat.tasker.firstname}`
     .chat-messages
       each chat in allchat.message
         .message

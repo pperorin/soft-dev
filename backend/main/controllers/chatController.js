@@ -15,7 +15,7 @@ exports.getChat = catchAsync(async (req, res, next) => {
         // res.status(200).json({
         title: 'Chat',
         status: 'success',
-        allchat,
+        allchat
     });
 });
 
@@ -50,22 +50,22 @@ exports.createChat = catchAsync(async (req, res, next) => {
     }
 });
 
-exports.sendMessage = catchAsync(async (req, res, next) => {
-    const newMessage = await Chat.findOneAndUpdate(
-        { id: req.params.id },
-        {
-            $push: {
-                message: {
-                    sender: req.user.firstname,
-                    message: req.body.message,
-                },
-            },
-        }
-    );
-    res.status(201).json({
-        status: 'success',
-        data: {
-            newMessage,
-        },
-    });
-});
+// exports.sendMessage = catchAsync(async (req, res, next) => {
+//     const newMessage = await Chat.findOneAndUpdate(
+//         { id: req.params.id },
+//         {
+//             $push: {
+//                 message: {
+//                     sender: req.user.firstname,
+//                     message: req.body.message,
+//                 },
+//             },
+//         }
+//     );
+//     res.status(201).json({
+//         status: 'success',
+//         data: {
+//             newMessage,
+//         },
+//     });
+// });
