@@ -65,7 +65,7 @@ exports.getHandymanSubCategories = catchAsync(async (req, res, next) => {
 
 exports.createHandymanUser = catchAsync(async (req, res, next) => {
     req.body.user = req.user.id;
-    const duplicate = await Handyman.find({ id: req.body.user })
+    const duplicate = await Handyman.find({ user: req.user.id })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

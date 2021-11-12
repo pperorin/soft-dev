@@ -26,12 +26,12 @@ const cleaningSchema = new Schema({
         review: String
     }],
     description: String,
-    history: [String
-        //     {
-        //     contract: mongoose.Schema.ObjectId,
-        //     ref: 'Contract'
-        // }
-    ],
+    history: [{
+        contract: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Contract'
+        }
+    }],
     price: {
         type: Number,
         required: [true, 'A tasker must have a price']
@@ -59,11 +59,10 @@ cleaningSchema.pre(/^find/, function (next) {
     }).populate({
         path: 'review.userReview',
         select: ['firstname', 'lastname']
+    }).populate({
+        path: 'history.contract',
+        select: ['description', 'price']
     })
-    // .populate({
-    //     path: 'contract',
-    //     select: ['firstname', 'lastname']
-    // })
 
     next();
 });

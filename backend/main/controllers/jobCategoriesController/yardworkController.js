@@ -65,7 +65,7 @@ exports.getYardworkSubCategories = catchAsync(async (req, res, next) => {
 
 exports.createYardworkUser = catchAsync(async (req, res, next) => {
     req.body.user = req.user.id;
-    const duplicate = await Yardwork.find({ id: req.body.user })
+    const duplicate = await Yardwork.find({ user: req.body.user })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

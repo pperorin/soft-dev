@@ -23,6 +23,11 @@ const contractSchema = new Schema({
         type: String
     },
     price: Number,
+    category: {
+        type: String,
+        required: [true, 'The contract must have a category'],
+        enum: ['cleanings', 'consultants', 'handymen', 'mountings', 'movingServices', 'personalAssistants', 'visualAudios', 'yardworks']
+    },
     ActiveAt: {
         type: Date,
         default: Date.now
@@ -31,6 +36,11 @@ const contractSchema = new Schema({
         type: String,
         default: "active",
         enum: ["cancel", "active", "finish"]
+    },
+    is_review: {
+        type: Boolean,
+        default: false,
+        enum: [true, false]
     }
 })
 

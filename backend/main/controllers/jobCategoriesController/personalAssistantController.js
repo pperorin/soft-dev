@@ -64,7 +64,7 @@ exports.getPersonalAssistantSubCategories = catchAsync(async (req, res, next) =>
 
 exports.createPersonalAssistantUser = catchAsync(async (req, res, next) => {
     req.body.user = req.user.id;
-    const duplicate = await PersonalAssistant.find({ id: req.body.user })
+    const duplicate = await PersonalAssistant.find({ user: req.user.id })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

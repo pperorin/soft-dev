@@ -65,7 +65,7 @@ exports.getConsultantSubCategories = catchAsync(async (req, res, next) => {
 
 exports.createConsultantUser = catchAsync(async (req, res, next) => {
     req.body.user = req.user.id;
-    const duplicate = await Consultant.find({ id: req.body.user })
+    const duplicate = await Consultant.find({ user: req.user.id })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 

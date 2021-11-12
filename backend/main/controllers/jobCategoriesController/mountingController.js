@@ -66,7 +66,7 @@ exports.getMountingSubCategories = catchAsync(async (req, res, next) => {
 
 exports.createMountingUser = catchAsync(async (req, res, next) => {
     req.body.user = req.user.id;
-    const duplicate = await Mounting.find({ id: req.body.user })
+    const duplicate = await Mounting.find({ user: req.user.id })
     if (duplicate.length > 0)
         return next(new AppError('Duplicate User', 404))
 
