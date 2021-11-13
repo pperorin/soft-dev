@@ -17,10 +17,15 @@ exports.createReviewCleaning = catchAsync(async (req, res, next) => {
 
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await Cleaning.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -43,10 +48,14 @@ exports.createReviewCleaning = catchAsync(async (req, res, next) => {
 exports.createReviewConsultant = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await Consultant.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -69,10 +78,14 @@ exports.createReviewConsultant = catchAsync(async (req, res, next) => {
 exports.createReviewHandyman = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await Handyman.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -94,10 +107,14 @@ exports.createReviewHandyman = catchAsync(async (req, res, next) => {
 exports.createReviewMounting = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await Mounting.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -119,10 +136,14 @@ exports.createReviewMounting = catchAsync(async (req, res, next) => {
 exports.createReviewMovingServices = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await MovingServices.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -145,10 +166,14 @@ exports.createReviewMovingServices = catchAsync(async (req, res, next) => {
 exports.createReviewPersonalAssistant = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await PersonalAssistant.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -171,10 +196,14 @@ exports.createReviewPersonalAssistant = catchAsync(async (req, res, next) => {
 exports.createReviewVisualAudio = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await VisualAudio.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;
@@ -197,10 +226,14 @@ exports.createReviewVisualAudio = catchAsync(async (req, res, next) => {
 exports.createReviewYardwork = catchAsync(async (req, res, next) => {
     // check contract exist
     const contract = await Contract.findById(req.params.id);
+
+    // check status of contract should be finish
+    if (contract.status !== 'finish') return next(new AppError('Contract is not finish yet', 400));
+
     if (!contract || contract.is_review != false) return next(new AppError('contract not found', 404));
 
     // check user in contract is the same as user in request
-    if (contract.user._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
+    if (contract.tasker._id != req.user.id) return next(new AppError('user and tasker are the same person', 400));
 
     const tasker = await Yardwork.findOne({ user: contract.tasker._id });
     const newQuantity = tasker.ratingsQuantity + 1;

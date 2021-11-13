@@ -12,8 +12,10 @@ router
 router
     .route('/:id')
     .get(contractController.getContract)
-    .patch(contractController.updateContract)
-    .delete(contractController.deleteContract);
+    .post(contractController.updateContract)
+    .patch(contractController.contractFinish)
+    .delete(contractController.contractCancel);
+
 
 // router
 //     .route('/cleanings/:id')

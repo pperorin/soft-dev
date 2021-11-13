@@ -28,7 +28,7 @@ const contractSchema = new Schema({
         required: [true, 'The contract must have a category'],
         enum: ['cleanings', 'consultants', 'handymen', 'mountings', 'movingServices', 'personalAssistants', 'visualAudios', 'yardworks']
     },
-    ActiveAt: {
+    createdAt: {
         type: Date,
         default: Date.now
     },

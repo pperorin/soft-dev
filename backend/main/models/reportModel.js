@@ -11,16 +11,11 @@ const reportSchema = new Schema(
             type: Date,
             default: Date.now
         },
-        tasker: {
+        contract: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Tasker',
-            required: [true, 'Review must belong to a tasker.']
+            ref: 'Contract'
         },
-        user: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User',
-            required: [true, 'Review must belong to a user']
-        }
+
     },
     {
         toJSON: { virtuals: true },
@@ -28,6 +23,13 @@ const reportSchema = new Schema(
     }
 );
 
+reportSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'contract',
+        select: ['tasker', 'user']
+    });
+    next();
+});
 
 const ReportModel = mongoose.model('Report', reportSchema)
 module.exports = ReportModel

@@ -1,46 +1,47 @@
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const Review = require('../models/reviewModel')
-const Report = require('../models/reportModel')
-const Cleaning = require('../models/jobCategoriesModel/cleaningModel');
-const Consultant = require('../models/jobCategoriesModel/consultantModel');
-const Handyman = require('../models/jobCategoriesModel/handymanModel');
-const Mounting = require('../models/jobCategoriesModel/mountingModel');
-const MovingServices = require('../models/jobCategoriesModel/movingServicesModel');
-const PersonalAssistant = require('../models/jobCategoriesModel/personalAssistantModel');
-const VisualAudio = require('../models/jobCategoriesModel/visualAudioModel');
-const Yardwork = require('../models/jobCategoriesModel/yardworkModel');
 
-exports.createReview = catchAsync(async (req, res, next) => {
-    const newReview = await Review.create(req.body);
+const Contract = require('../models/contractModel');
 
-    res.status(200).json({
+const Report = require('../models/reportModel');
+
+exports.createReport = catchAsync(async (req, res, next) => {
+    //check if contract exists
+    const contract = await Contract.findById(req.params.contractId);
+    if (!contract)
+        return next(new AppError('No contract found with that ID', 404));
+
+    // check user in report is same in user in contract
+    else if (contract.user.toString() !== req.user.id)
+        return next(new AppError('You are not authorized to create a report for this contract', 401));
+
+    req.body.contract = req.params.contractId;
+    const report = await Report.create(req.body);
+    res.status(201).json({
         status: 'success',
         data: {
-            review: newReview
+            report
         }
     });
 });
 
-exports.getAllReview = catchAsync(async (req, res, next) => {
-    const reviews = await Review.find()
-
+exports.getAllReport = catchAsync(async (req, res, next) => {
+    const report = await Report.find();
     res.status(200).json({
         status: 'success',
         data: {
-            reviews
+            report
         }
     });
 });
 
-exports.reportTasker = catchAsync(async (req, res, next) => {
-
-
+exports.getReport = catchAsync(async (req, res, next) => {
+    const report = await Report.findById(req.params.id);
     res.status(200).json({
         status: 'success',
         data: {
-            user: updatedUser
+            report
         }
     });
 });
