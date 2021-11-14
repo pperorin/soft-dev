@@ -48,7 +48,7 @@ exports.getContract = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.updateContract = catchAsync(async (req, res, next) => {
+exports.editContract = catchAsync(async (req, res, next) => {
     // const contract = await Contract.findOneAndUpdate({ id: req.params.id, tasker: req.user.id, Active: "active" }, req.body, { new: true, runValidators: true });
 
     // must be update after 1 day from the created date
@@ -79,18 +79,18 @@ exports.contractCancel = catchAsync(async (req, res, next) => {
     const contract = await Contract.findById(req.params.id);
     // check date to cancel after 1 day
     const date = new Date();
-    const dateCancel = new Date(contract.createdAt);
-    dateCancel.setDate(dateCancel.getDate() + 1);
-    const dateCancelLate = new Date(contract.date);
-    dateCancelLate.setDate(dateCancelLate.getDate() + 1);
-    if (date > dateCancel && date <= dateCancelLate) {
+    const dateCreate = new Date(contract.createdAt);
+    dateCreate.setDate(dateCreate.getDate() + 1);
+    const dateWork = new Date(contract.date);
+    dateWork.setDate(dateWork.getDate() + 1);
+    //TODO FIX BUG DATE 
+    //! bug here
+    if (date > dateCreate && date < dateWork) {
         return next(new AppError('You can not cancel contract after 1 days', 400));
     }
-    if (date <= dateCancelLate) {
-        return next(new AppError('You can not cancel contract before working day', 400));
-    }
+
     const contractCancel = await Contract.findOneAndUpdate({ id: req.params.id, status: 'active' }, { status: 'cancel' }, { new: true, runValidators: true });
-    console.log(contractCancel);
+
     res.status(201).json({
         status: 'success',
         data: {

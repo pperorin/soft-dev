@@ -11,6 +11,7 @@ router
     .post(authController.signup);
 router
     .route('/login')
+    .get(viewsController.getLoginForm)
     .post(authController.login);
 
 //router.route('/users').get(userController.getAllUsers);

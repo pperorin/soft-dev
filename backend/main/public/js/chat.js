@@ -1,17 +1,17 @@
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
-const roomName = document.getElementById('room-name');
+// const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
 const socket = io();
 
 const username = ''
-const room = ''
+const roomId = ''
 // Join chatroom
-socket.emit('joinRoom', { username, room });
+socket.emit('joinRoom', { username, roomId });
 
 // Get room and users
-socket.on('roomUsers', ({ room, users }) => {
+socket.on('roomUsers', ({ roomId, users }) => {
     outputRoomName(room);
     outputUsers(users);
 });
@@ -63,19 +63,19 @@ function outputMessage(message) {
 }
 
 // Add room name to DOM
-function outputRoomName(room) {
-    roomName.innerText = room;
-}
+// function outputRoomName(room) {
+//     roomName.innerText = room;
+// }
 
 // Add users to DOM
-function outputUsers(users) {
-    userList.innerHTML = '';
-    users.forEach((user) => {
-        const li = document.createElement('li');
-        li.innerText = user.username;
-        userList.appendChild(li);
-    });
-}
+// function outputUsers(users) {
+//     userList.innerHTML = '';
+//     users.forEach((user) => {
+//         const li = document.createElement('li');
+//         li.innerText = user.username;
+//         userList.appendChild(li);
+//     });
+// }
 
 //Prompt the user before leave chat room
 document.getElementById('leave-btn').addEventListener('click', () => {

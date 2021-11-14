@@ -12,7 +12,7 @@ router
 router
     .route('/:id')
     .get(contractController.getContract)
-    .post(contractController.updateContract)
+    .post(contractController.editContract)
     .patch(contractController.contractFinish)
     .delete(contractController.contractCancel);
 

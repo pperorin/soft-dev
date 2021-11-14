@@ -10,7 +10,7 @@ exports.getChat = catchAsync(async (req, res, next) => {
     const allchat = await Chat.findById(req.params.id);
     // console.log(chat.message);
     global.username = req.user.firstname; // Socket.io
-    global.id = req.params.id;
+    global.roomId = req.params.id;
     res.status(200).render('chat', {
         // res.status(200).json({
         title: 'Chat',
@@ -30,12 +30,12 @@ exports.getAllChat = catchAsync(async (req, res, next) => {
 });
 
 exports.createChat = catchAsync(async (req, res, next) => {
-    const allchat = await Chat.findOne({ user: req.user.id, tasker: req.body.tasker });
+    const chat = await Chat.create({ user: req.user.id, tasker: req.body.tasker });
     try {
-        if (allchat) {
+        if (chat) {
             res.status(201).json({
                 status: 'success',
-                url: `http://127.0.0.1:3000/chat/${allchat.id}`,
+                url: `http://127.0.0.1:3000/chat/${chat.id}`,
             });
         }
     }
