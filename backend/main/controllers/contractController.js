@@ -50,16 +50,23 @@ exports.getContract = catchAsync(async (req, res, next) => {
 
 exports.editContract = catchAsync(async (req, res, next) => {
     // const contract = await Contract.findOneAndUpdate({ id: req.params.id, tasker: req.user.id, Active: "active" }, req.body, { new: true, runValidators: true });
-
+    const contract = await Contract.find({ id: req.params.id, tasker: req.user.id, status: 'active' });
     // must be update after 1 day from the created date
-    const contract = await Contract.findOneAndUpdate({ id: req.params.id, tasker: req.user.id, Active: "active" }, req.body, { new: true, runValidators: true });
-    if (!contract) {
+    const date = new Date();
+    const dateCreate = new Date(contract.createdAt);
+    dateCreate.setDate(dateCreate.getDate() + 1);
+    if (date > dateCreate) {
+        return next(new AppError('You can not edit contract after 1 days', 400));
+    }
+
+    const contractEdit = await Contract.findOneAndUpdate({ id: req.params.id, tasker: req.user.id, Active: "active" }, req.body, { new: true, runValidators: true });
+    if (!contractEdit) {
         return next(new AppError('You are not authorized to update this contract', 401));
     }
     res.status(200).json({
         status: 'success',
         data: {
-            contract
+            contract: contractEdit
         }
     });
 });
@@ -83,8 +90,6 @@ exports.contractCancel = catchAsync(async (req, res, next) => {
     dateCreate.setDate(dateCreate.getDate() + 1);
     const dateWork = new Date(contract.date);
     dateWork.setDate(dateWork.getDate() + 1);
-    //TODO FIX BUG DATE 
-    //! bug here
     if (date > dateCreate && date < dateWork) {
         return next(new AppError('You can not cancel contract after 1 days', 400));
     }
