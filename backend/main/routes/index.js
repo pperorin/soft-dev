@@ -8,6 +8,7 @@ const reviewRouter = require('./review');
 const reportRouter = require('./report');
 const contractRouter = require('./contract');
 const chatRouter = require('./chat');
+const transactionRouter = require('./transaction');
 
 //router.get('/', taskerController.aliasTopTasker, taskerController.getAllUsers);
 
@@ -43,6 +44,10 @@ const routes = [
   {
     path: "/chat",
     route: chatRouter
+  },
+  {
+    path: "/transaction",
+    route: transactionRouter
   }
 ];
 

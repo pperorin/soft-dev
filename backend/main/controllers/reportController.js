@@ -3,7 +3,6 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 const Contract = require('../models/contractModel');
-
 const Report = require('../models/reportModel');
 
 exports.createReport = catchAsync(async (req, res, next) => {

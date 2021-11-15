@@ -2,8 +2,10 @@ const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-const Contract = require('../models/contractModel');
+const User = require('../models/userModel');
 const Chat = require('../models/chatModel');
+const Contract = require('../models/contractModel');
+const Transaction = require('../models/transactionModel');
 
 exports.createContract = catchAsync(async (req, res, next) => {
 
@@ -48,6 +50,50 @@ exports.getContract = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.acceptContract = catchAsync(async (req, res, next) => {
+    const contract = await Contract.findById(req.params.id);
+
+    // check have contract
+    if (!contract) {
+        return next(new AppError('Contract not found', 404));
+    }
+
+    // if you are the user in contract
+    if (contract.user.toString() === req.user.id) {
+        const user = await User.findById(req.user.id);
+        const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
+        console.log(systemWallet);
+        if (user.wallet >= contract.price) {
+            // deduct money from sender's wallet to system's wallet
+            user.wallet -= contract.price
+            systemWallet.wallet += contract.price
+
+            // create transaction
+            const transaction = await Transaction.create({
+                sender: req.user.id,
+                recepient: contract.tasker,
+                amount: contract.price,
+                type: 'transfer',
+                description: 'Transfer money from user to tasker'
+            });
+
+            contract.status = 'active';
+            await contract.save();
+        }
+        else {
+            // 
+            return next(new AppError('Insufficient balance', 404));
+        }
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            contract
+        }
+    });
+});
+
 exports.editContract = catchAsync(async (req, res, next) => {
     // const contract = await Contract.findOneAndUpdate({ id: req.params.id, tasker: req.user.id, Active: "active" }, req.body, { new: true, runValidators: true });
     const contract = await Contract.find({ id: req.params.id, tasker: req.user.id, status: 'active' });
@@ -73,7 +119,18 @@ exports.editContract = catchAsync(async (req, res, next) => {
 
 
 exports.contractFinish = catchAsync(async (req, res, next) => {
+    // tasker can finish contract
     const contract = await Contract.findOneAndUpdate({ id: req.params.id, tasker: req.user.id, status: 'active' }, { status: 'finish' }, { new: true, runValidators: true });
+
+    //transfer money from system's wallet to tasker's wallet
+    const tasker = await User.findById(req.user.id);
+    const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
+
+    // deduct money from sender's wallet to system's wallet
+    tasker.wallet += contract.price
+    systemWallet.wallet -= contract.price
+
+
     res.status(201).json({
         status: 'success',
         data: {
@@ -84,6 +141,7 @@ exports.contractFinish = catchAsync(async (req, res, next) => {
 
 exports.contractCancel = catchAsync(async (req, res, next) => {
     const contract = await Contract.findById(req.params.id);
+
     // check date to cancel after 1 day
     const date = new Date();
     const dateCreate = new Date(contract.createdAt);
@@ -94,12 +152,27 @@ exports.contractCancel = catchAsync(async (req, res, next) => {
         return next(new AppError('You can not cancel contract after 1 days', 400));
     }
 
+    // deduct money from system's wallet to user's wallet
+    const user = await User.findById(req.user.id);
+    const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
+    user.wallet += contract.price
+    systemWallet.wallet -= contract.price
+
+    // create transaction
+    const transaction = await Transaction.create({
+        sender: contract.tasker,
+        recepient: req.user.id,
+        amount: contract.price,
+        type: 'transfer',
+        description: 'Refund completed'
+    });
+
     const contractCancel = await Contract.findOneAndUpdate({ id: req.params.id, status: 'active' }, { status: 'cancel' }, { new: true, runValidators: true });
 
     res.status(201).json({
         status: 'success',
         data: {
-            contractCancel
+            contract: contractCancel
         }
     });
 });

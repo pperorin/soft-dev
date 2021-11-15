@@ -22,7 +22,16 @@ const contractSchema = new Schema({
     description: {
         type: String
     },
-    price: Number,
+    price: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: function (v) {
+                return /^\d+(?:\.\d{1,2})?$/.test(v);
+            },
+            message: '{VALUE} Decimal error'
+        }
+    },
     category: {
         type: String,
         required: [true, 'The contract must have a category'],
@@ -34,8 +43,8 @@ const contractSchema = new Schema({
     },
     status: {
         type: String,
-        default: "active",
-        enum: ["cancel", "active", "finish"]
+        default: "pending",
+        enum: ["cancel", "active", "finish", "pending"]
     },
     is_review: {
         type: Boolean,
