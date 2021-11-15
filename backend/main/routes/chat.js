@@ -6,7 +6,7 @@ const chatController = require('../controllers/chatController');
 const contractController = require('../controllers/contractController');
 // const viewController = require('../controllers/viewsController');
 
-router.use(authController.protect, authController.isLoggedIn);
+// router.use(authController.protect, authController.isLoggedIn);
 
 router.route('/').get(chatController.getAllChat).post(chatController.createChat);
 

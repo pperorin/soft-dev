@@ -4,7 +4,7 @@ const authController = require('../controllers/authController');
 const reviewController = require('../controllers/reviewController');
 
 
-router.use(authController.protect, authController.isLoggedIn);
+// router.use(authController.protect, authController.isLoggedIn);
 
 router
     .route('/cleanings/:id')

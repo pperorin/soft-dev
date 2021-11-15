@@ -10,7 +10,8 @@ const reportController = require('./../controllers/reportController');
 
 router
     .route('/users')
-    .get(authController.restrictTo('admin'), userController.getAllUsers);
+    // .get(authController.restrictTo('admin'), userController.getAllUsers);
+    .get(userController.getAllUsers);
 
 // ใช้กับ /user ปกติได้
 // router
@@ -19,7 +20,8 @@ router
 
 router
     .route('/contracts')
-    .get(authController.restrictTo('admin'), contractController.getAllContracts);
+    // .get(authController.restrictTo('admin'), contractController.getAllContracts);
+    .get(contractController.getAllContracts);
 
 // ใช้กับ /contract ปกติได้
 // router
@@ -28,7 +30,8 @@ router
 
 router
     .route('/reports')
-    .get(authController.restrictTo('admin'), reportController.getAllReport);
+    // .get(authController.restrictTo('admin'), reportController.getAllReport);
+    .get(reportController.getAllReport);
 
 // router
 //     .route('/reports/:contractId')

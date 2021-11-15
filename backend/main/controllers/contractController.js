@@ -62,11 +62,12 @@ exports.acceptContract = catchAsync(async (req, res, next) => {
     if (contract.user.toString() === req.user.id) {
         const user = await User.findById(req.user.id);
         const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
-        console.log(systemWallet);
         if (user.wallet >= contract.price) {
             // deduct money from sender's wallet to system's wallet
             user.wallet -= contract.price
             systemWallet.wallet += contract.price
+            await User.findByIdAndUpdate(req.user.id, { wallet: user.wallet }, { new: true });
+            await User.findByIdAndUpdate("619139cdbc31fae6c4c9c49a", { wallet: systemWallet.wallet }, { new: true });
 
             // create transaction
             const transaction = await Transaction.create({
@@ -129,7 +130,8 @@ exports.contractFinish = catchAsync(async (req, res, next) => {
     // deduct money from sender's wallet to system's wallet
     tasker.wallet += contract.price
     systemWallet.wallet -= contract.price
-
+    await User.findByIdAndUpdate(req.user.id, { wallet: tasker.wallet }, { new: true });
+    await User.findByIdAndUpdate("619139cdbc31fae6c4c9c49a", { wallet: systemWallet.wallet }, { new: true });
 
     res.status(201).json({
         status: 'success',
@@ -152,20 +154,42 @@ exports.contractCancel = catchAsync(async (req, res, next) => {
         return next(new AppError('You can not cancel contract after 1 days', 400));
     }
 
-    // deduct money from system's wallet to user's wallet
-    const user = await User.findById(req.user.id);
-    const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
-    user.wallet += contract.price
-    systemWallet.wallet -= contract.price
-
-    // create transaction
-    const transaction = await Transaction.create({
-        sender: contract.tasker,
-        recepient: req.user.id,
-        amount: contract.price,
-        type: 'transfer',
-        description: 'Refund completed'
-    });
+    // Check if user cancels => Refund to user
+    if (req.user.id === contract.user) {
+        // deduct money from system's wallet to user's wallet
+        const user = await User.findById(req.user.id);
+        const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
+        user.wallet += contract.price
+        systemWallet.wallet -= contract.price
+        await User.findByIdAndUpdate(req.user.id, { wallet: user.wallet }, { new: true });
+        await User.findByIdAndUpdate("619139cdbc31fae6c4c9c49a", { wallet: systemWallet.wallet }, { new: true });
+        // create transaction
+        const transaction = await Transaction.create({
+            sender: contract.tasker,
+            recepient: req.user.id,
+            amount: contract.price,
+            type: 'transfer',
+            description: 'Refund completed'
+        });
+    }
+    // Check if tasker cancels => Refund to user
+    else if(req.user.id === contract.tasker){
+        // deduct money from system's wallet to user's wallet
+        const user = await User.findById(contract.user);
+        const systemWallet = await User.findOne({ id: "619139cdbc31fae6c4c9c49a", role: 'system' });
+        user.wallet += contract.price
+        systemWallet.wallet -= contract.price
+        await User.findByIdAndUpdate(req.user.id, { wallet: user.wallet }, { new: true });
+        await User.findByIdAndUpdate("619139cdbc31fae6c4c9c49a", { wallet: systemWallet.wallet }, { new: true });
+        // create transaction
+        const transaction = await Transaction.create({
+            sender: contract.tasker,
+            recepient: req.user.id,
+            amount: contract.price,
+            type: 'transfer',
+            description: 'Refund completed'
+        });
+    }
 
     const contractCancel = await Contract.findOneAndUpdate({ id: req.params.id, status: 'active' }, { status: 'cancel' }, { new: true, runValidators: true });
 

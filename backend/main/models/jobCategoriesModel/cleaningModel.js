@@ -55,10 +55,10 @@ const cleaningSchema = new Schema({
 cleaningSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'user',
-        select: ['firstname', 'lastname']
+        select: ['firstname', 'lastname', 'photo']
     }).populate({
         path: 'review.userReview',
-        select: ['firstname', 'lastname']
+        select: ['firstname', 'lastname', 'photo']
     }).populate({
         path: 'history.contract',
         select: ['description', 'price']

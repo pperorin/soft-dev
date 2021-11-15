@@ -12,7 +12,7 @@ const personalAssistantController = require('./../controllers/jobCategoriesContr
 const visualAudioController = require('./../controllers/jobCategoriesController/visualAudioController');
 const yardworkController = require('./../controllers/jobCategoriesController/yardworkController');
 
-router.use(authController.protect);
+// router.use(authController.protect);
 
 // Cleaning
 router

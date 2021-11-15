@@ -3,7 +3,7 @@ const router = express.Router()
 const authController = require('../controllers/authController');
 const contractController = require('../controllers/contractController');
 
-router.use(authController.protect, authController.isLoggedIn);
+// router.use(authController.protect, authController.isLoggedIn);
 
 router
     .route('/')

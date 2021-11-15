@@ -21,7 +21,7 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
     //check transaction type
     if (req.body.type === 'deposit') {
         user.wallet += req.body.amount
-        await User.findByIdAndUpdate(req.user.id, { wallet: user.wallet }, { new: true });
+        x
         transaction = await Transaction.create({
             user: req.user.id,
             amount: req.body.amount,

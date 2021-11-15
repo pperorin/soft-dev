@@ -18,11 +18,23 @@ const handymanSchema = new Schema({
         type: Number,
         default: 0
     },
+    review: [{
+        userReview: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        },
+        review: String
+    }],
     description: String,
-    history: [String],
+    history: [{
+        contract: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Contract'
+        }
+    }],
     price: {
         type: Number,
-        required: [true, 'A tour must have a price']
+        required: [true, 'A tasker must have a price']
     },
     locations: {
         type: String,
@@ -31,7 +43,7 @@ const handymanSchema = new Schema({
     subCategories: {
         type: [String],
         require: true,
-        //enum: ['Home Repairs', 'Furniture Assembly', 'Plumbing', 'Mounting', 'Electrical Help', 'Heavy Lifting']
+        //enum: ['House Cleaning Services', 'Disinfecting Services', 'Laundry Help', 'Air Conditioning Cleaning Service']
     }
 },
     {
@@ -43,7 +55,13 @@ const handymanSchema = new Schema({
 handymanSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'user',
-        select: ['firstname', 'lastname']
+        select: ['firstname', 'lastname', 'photo']
+    }).populate({
+        path: 'review.userReview',
+        select: ['firstname', 'lastname', 'photo']
+    }).populate({
+        path: 'history.contract',
+        select: ['description', 'price']
     })
 
     next();

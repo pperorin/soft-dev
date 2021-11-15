@@ -1,7 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
+const authController = require('./../controllers/authController');
 const reportController = require('../controllers/reportController')
+
+// router.use(authController.protect, authController.isLoggedIn);
 
 router
     .route('/')

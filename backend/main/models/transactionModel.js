@@ -21,7 +21,7 @@ const transactionSchema = new Schema({
             validator: function (v) {
                 return /^\d+(?:\.\d{1,2})?$/.test(v);
             },
-            message: 'Invalid number'
+            ///2 decimal only ฝากfront จัดการให้ด้วย อุุอิคุคิงุงิ
         }
     },
     type: {
