@@ -1,6 +1,6 @@
-const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+const APIFeatures = require('../utils/apiFeatures');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 const User = require('../models/userModel');
 const Cleaning = require('../models/jobCategoriesModel/cleaningModel');
@@ -52,11 +52,43 @@ exports.getindex = catchAsync(async (req, res, next) => {
         categories,
         taskers
     });
-    // res.status(200).json({
-    //     status: 'success',
-    //     topCleaning,
-    //     topConsultant
-    // });
+});
+
+exports.getAllMyJob = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.user.id)
+    const cleaning = await Cleaning.findOne({ user: user._id });
+    const consultant = await Consultant.findOne({ user: user._id });
+    const handyman = await Handyman.findOne({ user: user._id });
+    const mounting = await Mounting.findOne({ user: user._id });
+    const movingServices = await MovingServices.findOne({ user: user._id });
+    const personalAssistant = await PersonalAssistant.findOne({ user: user._id });
+    const visualAudio = await VisualAudio.findOne({ user: user._id });
+    const yardwork = await Yardwork.findOne({ user: user._id });
+
+    let mytasker = []
+    if (cleaning)
+        mytasker.push(cleaning)
+    if (consultant)
+        mytasker.push(consultant)
+    if (handyman)
+        mytasker.push(handyman)
+    if (mounting)
+        mytasker.push(mounting)
+    if (movingServices)
+        mytasker.push(movingServices)
+    if (personalAssistant)
+        mytasker.push(personalAssistant)
+    if (visualAudio)
+        mytasker.push(visualAudio)
+    if (yardwork)
+        mytasker.push(yardwork)
+
+    console.log(mytasker)
+
+    res.status(200).json({
+        title: 'My Job',
+        user: mytasker
+    });
 });
 
 exports.getSignUpForm = (req, res) => {
@@ -82,4 +114,3 @@ exports.getChat = (req, res) => {
         title: 'Chat'
     });
 };
-

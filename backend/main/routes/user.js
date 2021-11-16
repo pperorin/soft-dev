@@ -3,7 +3,7 @@ const router = express.Router();
 
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
-const viewsController = require('./../controllers/viewsController');
+const taskerController = require('../controllers/taskerController');
 const contractController = require('./../controllers/contractController');
 
 router
@@ -21,10 +21,13 @@ router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
 // Protect all routes after this middleware
-// router.use(authController.protect);
+router.use(authController.protect);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
+
+router.get('/me/tasks', taskerController.getAllMyJob);
+
 router
     .route('/mycontract')
     .get(contractController.getMyAllContracts)
